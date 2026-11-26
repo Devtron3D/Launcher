@@ -78,6 +78,126 @@ namespace LauncherApp
                 F1 = "M6 18a10 10 0 1 0 20 0a10 10 0 1 0-20 0Z", F2 = "M13 2.5h6v3h-6Z M24.5 8.2l1.9-1.9 1.8 1.8-1.9 1.9Z M16 18v-8a8 8 0 0 1 8 8Z",
                 L1 = "M6 18a10 10 0 1 0 20 0a10 10 0 1 0-20 0 M16 5.5V8 M13 2.5h6v3h-6Z",
                 L2 = "M16 10v1.5 M24 18h-1.5 M16 26v-1.5 M8 18h1.5 M16 18l4.5-4.5 M21.7 12.3l1-1 M10.3 23.7l1-1" } },
+            { "laptop", new Art { C1 = Hex(0x8B949E), C2 = Hex(0x58A6FF),
+                F1 = "M6 5h20v15H6Z M2 22h28l-2.5 4h-23Z", F2 = "M8.5 7.5h15v10h-15Z",
+                L1 = "M6 5h20v15H6Z M2 22h28l-2.5 4h-23Z M6 20l-4 2 M26 20l4 2", L2 = "M8.5 7.5h15v10h-15Z M13.5 24h5" } },
+            { "desktop", new Art { C1 = Hex(0x4B535D), C2 = Hex(0x79A8F0),
+                F1 = "M9 3h14v26H9Z", F2 = "M12 6h8v3h-8Z M12 11h8v3h-8Z",
+                L1 = "M9 3h14v26H9Z M11 29v1.5 M21 29v1.5", L2 = "M12 6h8v3h-8Z M12 11h8v3h-8Z M14 22a2 2 0 1 0 4 0a2 2 0 1 0-4 0 M12 17h8" } },
+            { "server", new Art { C1 = Hex(0x57606A), C2 = Hex(0x3FB950),
+                F1 = "M5 4h22v7H5Z M5 12.5h22v7H5Z M5 21h22v7H5Z", F2 = "M8 6.5h2.5v2H8Z M8 15h2.5v2H8Z M8 23.5h2.5v2H8Z",
+                L1 = "M5 4h22v7H5Z M5 12.5h22v7H5Z M5 21h22v7H5Z", L2 = "M14 7.5h9 M14 16h9 M14 24.5h9" } },
+            { "phone", new Art { C1 = Hex(0x4B535D), C2 = Hex(0x58A6FF),
+                F1 = "M9 2h14v28H9Z", F2 = "M11 5h10v19H11Z",
+                L1 = "M9 2h14v28H9Z", L2 = "M11 5h10v19H11Z M15 27h2" } },
+            { "motherboard", new Art { C1 = Hex(0x1F8A47), C2 = Hex(0x2D333B),
+                F1 = "M3 3h26v26H3Z", F2 = "M7 7h9v9H7Z M20 6h2.5v14H20Z M24.5 6H27v14h-2.5Z M7 20h10v2.5H7Z M7 25h10v2H7Z",
+                L1 = "M3 3h26v26H3Z M7 7h9v9H7Z", L2 = "M20 6h2.5v14H20Z M24.5 6H27v14h-2.5Z M7 20h10v2.5H7Z M16 11.5h4 M11.5 16v4 M21 24h.01 M24 24h.01 M21 26.5h.01 M24 26.5h.01 M5 5h.01 M27 27h.01" } },
+            { "psu", new Art { C1 = Hex(0x57606A), C2 = Hex(0x8B949E),
+                F1 = "M3 7h26v18H3Z", F2 = "M6.5 16a6 6 0 1 0 12 0a6 6 0 1 0-12 0Z",
+                L1 = "M3 7h26v18H3Z M6.5 16a6 6 0 1 0 12 0a6 6 0 1 0-12 0", L2 = "M8.5 16h8 M12.5 12v8 M21.5 11h5v4.5h-5Z M22.5 20h3 M22.5 22.5h3" } },
+            { "ssd", new Art { C1 = Hex(0x1F8A47), C2 = Hex(0x2D333B),
+                F1 = "M2 10h28v12H2Z", F2 = "M7 12.5h7v7H7Z M16.5 12.5h7v7h-7Z",
+                L1 = "M2 10h28v12H2Z", L2 = "M7 12.5h7v7H7Z M16.5 12.5h7v7h-7Z M27 16h.01 M3.8 13v6" } },
+            { "usb", new Art { C1 = Hex(0x2F81F7), C2 = Hex(0xD0D7DE),
+                F1 = "M10 12h12v17H10Z", F2 = "M12 3h8v9h-8Z",
+                L1 = "M10 12h12v17H10Z M12 3h8v9h-8Z", L2 = "M14 6h1.5v2.5H14Z M16.5 6H18v2.5h-1.5Z M13 16h6 M16 25h.01" } },
+            { "sdcard", new Art { C1 = Hex(0x4B535D), C2 = Hex(0xD29922),
+                F1 = "M8 3h12l5 5v21H8Z", F2 = "M10.5 5h2v4.5h-2Z M13.5 5h2v4.5h-2Z M16.5 5h2v4.5h-2Z",
+                L1 = "M8 3h12l5 5v21H8Z", L2 = "M11 19h11 M11 22.5h8 M11 26h5" } },
+            { "keyboard", new Art { C1 = Hex(0x4B535D), C2 = Hex(0xC9D1D9),
+                F1 = "M2 9h28v15H2Z", F2 = "M9 19.5h14v2H9Z",
+                L1 = "M2 9h28v15H2Z", L2 = "M5 12.5h2 M9 12.5h2 M13 12.5h2 M17 12.5h2 M21 12.5h2 M25 12.5h2 M5 16h2 M9 16h2 M13 16h2 M17 16h2 M21 16h2 M25 16h2 M9 20.5h14" } },
+            { "mouse", new Art { C1 = Hex(0xE6EDF3), C2 = Hex(0x58A6FF),
+                F1 = "M9 10a7 7 0 0 1 14 0v10a7 7 0 0 1-14 0Z", F2 = "M15 6h2v5h-2Z",
+                L1 = "M9 10a7 7 0 0 1 14 0v10a7 7 0 0 1-14 0Z M9 13h14 M16 3v3 M16 11v2", L2 = "M15 6h2v5h-2Z" } },
+            { "printer", new Art { C1 = Hex(0x8B949E), C2 = Hex(0xF6F8FA),
+                F1 = "M3 12h26v12H3Z", F2 = "M9 4h14v8H9Z M9 20h14v9H9Z",
+                L1 = "M3 12h26v12H3Z M9 4h14v8H9Z M9 20h14v9H9Z", L2 = "M24 15.5h2 M12 23.5h8 M12 26.5h6" } },
+            { "camera", new Art { C1 = Hex(0x4B535D), C2 = Hex(0x79A8F0),
+                F1 = "M3 9h6l2-3h10l2 3h6v17H3Z", F2 = "M10 17a6 6 0 1 0 12 0a6 6 0 1 0-12 0Z",
+                L1 = "M3 9h6l2-3h10l2 3h6v17H3Z M10 17a6 6 0 1 0 12 0a6 6 0 1 0-12 0", L2 = "M13 17a3 3 0 1 0 6 0a3 3 0 1 0-6 0 M24.5 12h2" } },
+            { "speaker", new Art { C1 = Hex(0x8B949E), C2 = Hex(0xD2A8FF),
+                F1 = "M4 12h6l7-6v20l-7-6H4Z", F2 = "M4 12h6v8H4Z",
+                L1 = "M4 12h6l7-6v20l-7-6H4Z M10 12v8", L2 = "M21 12.5a5 5 0 0 1 0 7 M24.5 9a10 10 0 0 1 0 14" } },
+            { "headphones", new Art { C1 = Hex(0x4B535D), C2 = Hex(0xF0883E),
+                F1 = "M4 18h6v10H4Z M22 18h6v10h-6Z", F2 = "M6 20h2v6H6Z M24 20h2v6h-2Z",
+                L1 = "M4 18h6v10H4Z M22 18h6v10h-6Z M5 18v-2a11 11 0 0 1 22 0v2", L2 = "M6 20h2v6H6Z M24 20h2v6h-2Z" } },
+            { "gamepad", new Art { C1 = Hex(0x4B535D), C2 = Hex(0xE5534B),
+                F1 = "M8 9h16c4 0 6 4 6.5 9 .5 4.5-1 8-3.5 8-2.5 0-4-3-6-5H11c-2 2-3.5 5-6 5-2.5 0-4-3.5-3.5-8C2 13 4 9 8 9Z", F2 = "M21 13.3a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0-2.6 0Z M24.2 16.5a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0-2.6 0Z",
+                L1 = "M8 9h16c4 0 6 4 6.5 9 .5 4.5-1 8-3.5 8-2.5 0-4-3-6-5H11c-2 2-3.5 5-6 5-2.5 0-4-3.5-3.5-8C2 13 4 9 8 9Z", L2 = "M9.5 13v6 M6.5 16h6 M14.5 14h3" } },
+            { "wifi", new Art { C1 = Hex(0x58A6FF), C2 = Hex(0x58A6FF),
+                F1 = "M10.70 19.70 A7.5 7.5 0 0 1 21.30 19.70 L19.18 21.82 A4.5 4.5 0 0 0 12.82 21.82Z M6.81 15.81 A13 13 0 0 1 25.19 15.81 L23.07 17.93 A10 10 0 0 0 8.93 17.93Z M2.92 11.92 A18.5 18.5 0 0 1 29.08 11.92 L26.96 14.04 A15.5 15.5 0 0 0 5.04 14.04Z M13.8 25a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0-4.4 0Z", F2 = "",
+                L1 = "M10.70 19.70 A7.5 7.5 0 0 1 21.30 19.70 L19.18 21.82 A4.5 4.5 0 0 0 12.82 21.82Z M6.81 15.81 A13 13 0 0 1 25.19 15.81 L23.07 17.93 A10 10 0 0 0 8.93 17.93Z M2.92 11.92 A18.5 18.5 0 0 1 29.08 11.92 L26.96 14.04 A15.5 15.5 0 0 0 5.04 14.04Z M13.8 25a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0-4.4 0Z", L2 = "" } },
+            { "router", new Art { C1 = Hex(0x57606A), C2 = Hex(0x3FB950),
+                F1 = "M3 18h26v8H3Z", F2 = "M7 21h2v2H7Z M11 21h2v2h-2Z M15 21h2v2h-2Z",
+                L1 = "M3 18h26v8H3Z M8 18V7 M24 18V7 M6 26v2.5 M26 26v2.5", L2 = "M11.5 9.5a6 6 0 0 1 9 0 M13.8 12.5a2.8 2.8 0 0 1 4.4 0 M21.5 22h4" } },
+            { "globe", new Art { C1 = Hex(0x58A6FF), C2 = Hex(0x3FB950),
+                F1 = "M4 16a12 12 0 1 0 24 0a12 12 0 1 0-24 0Z", F2 = "M9 9C12 8 14 10 13 13C12 16 9 15 8 18C7 20 5 18 5 15C5 12 7 10 9 9Z M19 18C21 17 24 18 24 21C24 24 21 25 19 24C17 23 17 19 19 18Z",
+                L1 = "M4 16a12 12 0 1 0 24 0a12 12 0 1 0-24 0", L2 = "M4.5 12.5h23 M4.5 19.5h23 M16 4C12 8 12 24 16 28 M16 4C20 8 20 24 16 28" } },
+            { "cloud", new Art { C1 = Hex(0xE6EDF3), C2 = Hex(0x58A6FF),
+                F1 = "M9 25a6 6 0 0 1-.8-11.9A8 8 0 0 1 23.5 12a6.5 6.5 0 0 1 .5 13Z", F2 = "",
+                L1 = "M9 25a6 6 0 0 1-.8-11.9A8 8 0 0 1 23.5 12a6.5 6.5 0 0 1 .5 13Z", L2 = "M16 22v-8.5 M12.5 17l3.5-3.5 3.5 3.5" } },
+            { "hourglass", new Art { C1 = Hex(0xF6F8FA), C2 = Hex(0xD29922),
+                F1 = "M9 4H23V7C23 11.5 18 14 18 16C18 18 23 20.5 23 25V28H9V25C9 20.5 14 18 14 16C14 14 9 11.5 9 7Z", F2 = "M11 8h10c-.5 2.5-3.5 4.5-5 5.5-1.5-1-4.5-3-5-5.5Z M10.5 27c0-3 3-5 5.5-6 2.5 1 5.5 3 5.5 6Z",
+                L1 = "M9 4H23V7C23 11.5 18 14 18 16C18 18 23 20.5 23 25V28H9V25C9 20.5 14 18 14 16C14 14 9 11.5 9 7Z M7 4h18 M7 28h18", L2 = "" } },
+            { "calendar", new Art { C1 = Hex(0xF6F8FA), C2 = Hex(0xE5534B),
+                F1 = "M4 6h24v22H4Z", F2 = "M4 6h24v6H4Z",
+                L1 = "M4 6h24v22H4Z M4 12h24 M10 3.5v5 M22 3.5v5", L2 = "M8 16h3 M14.5 16h3 M21 16h3 M8 20.5h3 M14.5 20.5h3 M21 20.5h3 M8 25h3 M14.5 25h3" } },
+            { "chart", new Art { C1 = Hex(0xF6F8FA), C2 = Hex(0x3FB950),
+                F1 = "M3 3h26v26H3Z", F2 = "M7 19h4v7H7Z M14 13h4v13h-4Z M21 8h4v18h-4Z",
+                L1 = "M3 3h26v26H3Z", L2 = "M7 19h4v7H7Z M14 13h4v13h-4Z M21 8h4v18h-4Z M6 26h20" } },
+            { "plug", new Art { C1 = Hex(0xE6EDF3), C2 = Hex(0xC9D1D9),
+                F1 = "M9 12h14v7a7 7 0 0 1-14 0Z", F2 = "M12 4h2.5v8H12Z M17.5 4H20v8h-2.5Z",
+                L1 = "M9 12h14v7a7 7 0 0 1-14 0Z M12 4h2.5v8H12Z M17.5 4H20v8h-2.5Z M16 26v4", L2 = "M13 16h6" } },
+            { "bug", new Art { C1 = Hex(0xE5534B), C2 = Hex(0x2D333B),
+                F1 = "M10 15a6 6 0 0 1 12 0v6a6 6 0 0 1-12 0Z", F2 = "M12.5 11a3.5 3.5 0 0 1 7 0Z",
+                L1 = "M10 15a6 6 0 0 1 12 0v6a6 6 0 0 1-12 0Z M12.5 11a3.5 3.5 0 0 1 7 0Z M16 15v12", L2 = "M10 17H5.5 M10 22H6 M22 17h4.5 M22 22h4 M11 13l-4-3 M21 13l4-3 M11 25l-4 3 M21 25l4 3 M14 7.5l-1.5-3 M18 7.5l1.5-3" } },
+            { "shield", new Art { C1 = Hex(0x58A6FF), C2 = Hex(0x1F6FEB),
+                F1 = "M16 3l11 4v8c0 7-5 12-11 14C10 27 5 22 5 15V7Z", F2 = "M16 3l11 4v8c0 7-5 12-11 14Z",
+                L1 = "M16 3l11 4v8c0 7-5 12-11 14C10 27 5 22 5 15V7Z", L2 = "M11 16l3.5 3.5L21 13" } },
+            { "download", new Art { C1 = Hex(0x3FB950), C2 = Hex(0xE6EDF3),
+                F1 = "M4 21h24v7H4Z", F2 = "M13 3h6v9h4.5L16 19.5 8.5 12H13Z",
+                L1 = "M4 21h24v7H4Z M13 3h6v9h4.5L16 19.5 8.5 12H13Z", L2 = "M24.5 24.5h.01" } },
+            { "trophy", new Art { C1 = Hex(0xD29922), C2 = Hex(0xFFD166),
+                F1 = "M9 4h14v7a7 7 0 0 1-14 0Z M14.5 17h3v7h-3Z M10 24h12v4H10Z", F2 = "M11.5 6.5h2v5.5h-2Z",
+                L1 = "M9 4h14v7a7 7 0 0 1-14 0Z M14.5 17h3v7h-3Z M10 24h12v4H10Z M9 7H5.5v2a4 4 0 0 0 4 4 M23 7h3.5v2a4 4 0 0 1-4 4", L2 = "M13 26h6" } },
+            { "target", new Art { C1 = Hex(0xE5534B), C2 = Hex(0xF6F8FA),
+                F1 = "M4 16a12 12 0 1 0 24 0a12 12 0 1 0-24 0Z", F2 = "M8 16a8 8 0 1 0 16 0a8 8 0 1 0-16 0Z M12 16a4 4 0 1 1 8 0a4 4 0 1 1-8 0Z",
+                L1 = "M4 16a12 12 0 1 0 24 0a12 12 0 1 0-24 0 M8 16a8 8 0 1 0 16 0a8 8 0 1 0-16 0 M12 16a4 4 0 1 0 8 0a4 4 0 1 0-8 0", L2 = "M16 16L27 5 M27 5h-3.5 M27 5v3.5" } },
+            { "checklist", new Art { C1 = Hex(0xF6F8FA), C2 = Hex(0x3FB950),
+                F1 = "M6 3h20v26H6Z", F2 = "M9 8h4v4H9Z M9 15h4v4H9Z M9 22h4v4H9Z",
+                L1 = "M6 3h20v26H6Z M9 8h4v4H9Z M9 15h4v4H9Z M9 22h4v4H9Z", L2 = "M16 10h7 M16 17h7 M16 24h5 M9.8 10l1.2 1.2 2.2-2.6 M9.8 17l1.2 1.2 2.2-2.6 M9.8 24l1.2 1.2 2.2-2.6" } },
+            { "flask", new Art { C1 = Hex(0xF6F8FA), C2 = Hex(0x2BB5A0),
+                F1 = "M12 3h8v2h-1v7l7 13a2.5 2.5 0 0 1-2.2 3.7H8.2A2.5 2.5 0 0 1 6 25.7L13 12V5h-1Z", F2 = "M9.5 20h13l3 5.5a1.5 1.5 0 0 1-1.3 2.2H7.8a1.5 1.5 0 0 1-1.3-2.2Z",
+                L1 = "M12 3h8v2h-1v7l7 13a2.5 2.5 0 0 1-2.2 3.7H8.2A2.5 2.5 0 0 1 6 25.7L13 12V5h-1Z", L2 = "M13 9h3 M13 12.5h2" } },
+            { "magnifier", new Art { C1 = Hex(0xC9D1D9), C2 = Hex(0x79A8F0),
+                F1 = "M19.5 21.5l2-2 7.5 7.5a1.4 1.4 0 0 1-2 2Z", F2 = "M4 13a9 9 0 1 0 18 0a9 9 0 1 0-18 0Z",
+                L1 = "M4 13a9 9 0 1 0 18 0a9 9 0 1 0-18 0 M19.5 21.5l2-2 7.5 7.5a1.4 1.4 0 0 1-2 2Z", L2 = "M8.5 10a5 5 0 0 1 4-3.5" } },
+            { "pulse", new Art { C1 = Hex(0xFFF0F0), C2 = Hex(0xE5534B),
+                F1 = "M3 6h26v20H3Z", F2 = "",
+                L1 = "M3 6h26v20H3Z", L2 = "M5 17h6l2-6 3 11 2.5-8 1.5 3h7" } },
+            { "dumbbell", new Art { C1 = Hex(0x8B949E), C2 = Hex(0xC9D1D9),
+                F1 = "M3 12h3v8H3Z M6 9h4v14H6Z M22 9h4v14h-4Z M26 12h3v8h-3Z", F2 = "M10 14.5h12v3H10Z",
+                L1 = "M3 12h3v8H3Z M6 9h4v14H6Z M22 9h4v14h-4Z M26 12h3v8h-3Z M10 14.5h12v3H10Z", L2 = "" } },
+            { "rocket", new Art { C1 = Hex(0xE6EDF3), C2 = Hex(0xE5534B),
+                F1 = "M16 2C21 6 22 12 21 20H11C10 12 11 6 16 2Z", F2 = "M11 15l-4 5v4l4-2Z M21 15l4 5v4l-4-2Z",
+                L1 = "M16 2C21 6 22 12 21 20H11C10 12 11 6 16 2Z M11 15l-4 5v4l4-2Z M21 15l4 5v4l-4-2Z", L2 = "M14 11a2 2 0 1 0 4 0a2 2 0 1 0-4 0 M13.5 20v2 M18.5 20v2" } },
+            { "loop", new Art { C1 = Hex(0x58A6FF), C2 = Hex(0x58A6FF),
+                F1 = "M5.86 13.28 A10.5 10.5 0 0 1 25.09 10.75 L22.06 12.50 A7 7 0 0 0 9.24 14.19Z M19.90 13.75 L27.26 9.50 L24.70 15.09Z M26.14 18.72 A10.5 10.5 0 0 1 6.91 21.25 L9.94 19.50 A7 7 0 0 0 22.76 17.81Z M12.10 18.25 L4.74 22.50 L7.30 16.91Z", F2 = "",
+                L1 = "M5.86 13.28 A10.5 10.5 0 0 1 25.09 10.75 L22.06 12.50 A7 7 0 0 0 9.24 14.19Z M19.90 13.75 L27.26 9.50 L24.70 15.09Z M26.14 18.72 A10.5 10.5 0 0 1 6.91 21.25 L9.94 19.50 A7 7 0 0 0 22.76 17.81Z M12.10 18.25 L4.74 22.50 L7.30 16.91Z", L2 = "" } },
+            { "snowflake", new Art { C1 = Hex(0xD7F0FF), C2 = Hex(0x79C0FF),
+                F1 = "M2.5 16a13.5 13.5 0 1 0 27 0a13.5 13.5 0 1 0-27 0Z", F2 = "M13 16a3 3 0 1 0 6 0a3 3 0 1 0-6 0Z",
+                L1 = "M13 16a3 3 0 1 0 6 0a3 3 0 1 0-6 0 M16.00 12.80 L16.00 3.00 M18.77 14.40 L27.26 9.50 M18.77 17.60 L27.26 22.50 M16.00 19.20 L16.00 29.00 M13.23 17.60 L4.74 22.50 M13.23 14.40 L4.74 9.50", L2 = "M18.06 9.45 L16.00 7.00 L13.94 9.45 M22.70 14.51 L23.79 11.50 L20.64 10.94 M20.64 21.06 L23.79 20.50 L22.70 17.49 M13.94 22.55 L16.00 25.00 L18.06 22.55 M9.30 17.49 L8.21 20.50 L11.36 21.06 M11.36 10.94 L8.21 11.50 L9.30 14.51" } },
+            { "warning", new Art { C1 = Hex(0xD29922), C2 = Hex(0xFFD166),
+                F1 = "M16 3L30 28H2Z", F2 = "M16 8L26 26H6Z",
+                L1 = "M16 3L30 28H2Z", L2 = "M16 12.5v6.5 M16 22.5v.5" } },
+            { "filmstrip", new Art { C1 = Hex(0x57606A), C2 = Hex(0x58A6FF),
+                F1 = "M3 7h26v18H3Z", F2 = "M8 10h7v12H8Z M17 10h7v12h-7Z",
+                L1 = "M3 7h26v18H3Z M8 10h7v12H8Z M17 10h7v12h-7Z", L2 = "M4.8 9h1.4 M4.8 13h1.4 M4.8 17h1.4 M4.8 21h1.4 M25.8 9h1.4 M25.8 13h1.4 M25.8 17h1.4 M25.8 21h1.4" } },
+            { "info", new Art { C1 = Hex(0x58A6FF), C2 = Hex(0xFFFFFF),
+                F1 = "M4 16a12 12 0 1 0 24 0a12 12 0 1 0-24 0Z", F2 = "M14.5 13h3v10h-3Z M14.5 8.5a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0Z",
+                L1 = "M4 16a12 12 0 1 0 24 0a12 12 0 1 0-24 0", L2 = "" } },
         };
 
         public static bool Has(string name) { return name != null && Arts.ContainsKey(name); }
@@ -132,6 +252,11 @@ namespace LauncherApp
             "M11 4v4", "M14.3 4v4", "M17.7 4v4", "M21 4v4", "M24 11h4", "M24 14.3h4", "M24 17.7h4", "M24 21h4",
             "M21 24v4", "M17.7 24v4", "M14.3 24v4", "M11 24v4", "M4 21h4", "M4 17.7h4", "M4 14.3h4", "M4 11h4"
         };
+        static readonly string[] CheckBoxes = { "M9 8h4v4H9Z", "M9 15h4v4H9Z", "M9 22h4v4H9Z" };
+        static readonly string[] CheckTicks = { "M9.8 10l1.2 1.2 2.2-2.6", "M9.8 17l1.2 1.2 2.2-2.6", "M9.8 24l1.2 1.2 2.2-2.6" };
+        static readonly string[] ServerLights = { "M8 6.5h2.5v2H8Z", "M8 15h2.5v2H8Z", "M8 23.5h2.5v2H8Z" };
+        static readonly string[] RouterLights = { "M7 21h2v2H7Z", "M11 21h2v2h-2Z", "M15 21h2v2h-2Z" };
+        static readonly string[] WifiBands = { "M10.70 19.70 A7.5 7.5 0 0 1 21.30 19.70 L19.18 21.82 A4.5 4.5 0 0 0 12.82 21.82Z", "M6.81 15.81 A13 13 0 0 1 25.19 15.81 L23.07 17.93 A10 10 0 0 0 8.93 17.93Z", "M2.92 11.92 A18.5 18.5 0 0 1 29.08 11.92 L26.96 14.04 A15.5 15.5 0 0 0 5.04 14.04Z" };
         static readonly string[] MemoryChips = { "M5 12h4v6H5Z", "M11 12h4v6h-4Z", "M17 12h4v6h-4Z", "M23 12h4v6h-4Z" };
         static readonly string[] BatteryLevels = { "", "M6 12h4v8H6Z", "M6 12h4v8H6Z M11 12h4v8h-4Z", "M6 12h4v8H6Z M11 12h4v8h-4Z M16 12h4v8h-4Z" };
 
@@ -358,7 +483,378 @@ namespace LauncherApp
                     seg(16, 18, (float)(16 + 6.5 * Math.Cos(a)), (float)(18 + 6.5 * Math.Sin(a)), ink, small ? w1 : 1.5f);
                     break;
                 }
-                default:   // terminal: text types, the cursor blinks
+                // ---- benchmarking and testing ----
+                case "trophy":
+                {
+                    fill(art.F1, c1, null);
+                    var m = new Matrix();
+                    m.Translate((float)(7 * (t * 0.6 % 1)), 0);   // a shine slides across the cup
+                    var s = g.Save();
+                    g.IntersectClip(new RectangleF(9, 4, 14, 14));
+                    fill(art.F2, A(c2, 0.9), m);
+                    g.Restore(s);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    if (!small) line((int)(t * 2) % 2 == 0 ? "M27 2v3 M25.5 3.5h3" : "M4 3v3 M2.5 4.5h3", hi, 1.2f, null);
+                    break;
+                }
+                case "target":
+                {
+                    double p = t * 0.8 % 1;
+                    float k = (float)(p < 0.6 ? (1 - p / 0.6) * 8 : 0);   // the arrow flies in, then stays a moment
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    outline(art.L1, null);
+                    var m = new Matrix();
+                    m.Translate(k, -k);
+                    line(art.L2, ink, small ? w1 : 1.6f, m);
+                    break;
+                }
+                case "checklist":
+                {
+                    int done = (int)(t * 1.5) % 4;
+                    fill(art.F1, c1, null);
+                    for (int k = 0; k < 3; k++) fill(CheckBoxes[k], k < done ? c2 : c1, null);
+                    outline(art.L1, null);
+                    detail("M16 10h7 M16 17h7 M16 24h5", null);
+                    for (int k = 0; k < done; k++) line(CheckTicks[k], ink, small ? w1 : 1.6f, null);
+                    break;
+                }
+                case "flask":
+                {
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    for (int k = 0; k < 3; k++)
+                    {
+                        double p = (t * 0.7 + k / 3.0) % 1;
+                        float bx = 12 + k * 4, by = (float)(27 - p * 8), rad = (float)(0.8 + 0.6 * p);
+                        using (var b = new SolidBrush(A(Theme.Terminal ? ink2 : Hex(0xD7FFF6), 1 - p))) g.FillEllipse(b, bx - rad, by - rad, rad * 2, rad * 2);
+                    }
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    break;
+                }
+                case "magnifier":
+                {
+                    var m = new Matrix();
+                    m.Translate((float)(1.8 * Math.Cos(t * 2.2)), (float)(1.8 * sin(t * 2.2)));
+                    var s = g.Save();
+                    g.MultiplyTransform(m);
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    g.Restore(s);
+                    m.Dispose();
+                    break;
+                }
+                case "pulse":
+                {
+                    fill(art.F1, c1, null);
+                    var pts = new List<PointF>();
+                    for (float x = 4; x <= 28.01f; x += 0.5f)
+                    {
+                        double u = ((x - t * 12) % 26 + 26) % 26;   // the trace scrolls left
+                        double y = u < 6 ? 17 : u < 8 ? 17 - (u - 6) * 3 : u < 11 ? 11 + (u - 8) * 11 / 3 : u < 13.5 ? 22 - (u - 11) * 3.2 : u < 15 ? 14 + (u - 13.5) * 2 : 17;
+                        pts.Add(new PointF(x, (float)y));
+                    }
+                    using (var p = new Pen(Theme.Terminal ? ink2 : c2, small ? w1 : 1.5f) { LineJoin = join }) g.DrawLines(p, pts.ToArray());
+                    outline(art.L1, null);
+                    break;
+                }
+                case "dumbbell":
+                {
+                    var m = new Matrix();
+                    m.Translate(0, (float)(-2.5 * Math.Abs(sin(t * 2.5))));   // lifted and put down
+                    var s = g.Save();
+                    g.MultiplyTransform(m);
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    outline(art.L1, null);
+                    g.Restore(s);
+                    m.Dispose();
+                    break;
+                }
+                case "rocket":
+                {
+                    float shake = (float)(0.5 * sin(t * 30));
+                    float flame = (float)(1 + 0.3 * sin(t * 17) + 0.15 * sin(t * 29));
+                    fill("M13 21.5h6l-3 7Z", A(Hex(0xFFD166), 0.95), scaleAt(1, flame, 16, 21.5f));
+                    fill("M14.3 21.5h3.4l-1.7 4Z", Hex(0xF0883E), scaleAt(1, flame, 16, 21.5f));
+                    var m = new Matrix();
+                    m.Translate(shake, 0);
+                    var s = g.Save();
+                    g.MultiplyTransform(m);
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    g.Restore(s);
+                    m.Dispose();
+                    break;
+                }
+                case "loop":
+                case "snowflake":
+                {
+                    float a = (float)(name == "loop" ? t * 120 % 360 : t * 25 % 360);
+                    if (name == "snowflake")
+                    {
+                        fill(art.F1, c1, null);
+                        fill(art.F2, c2, null);
+                        line("M2.5 16a13.5 13.5 0 1 0 27 0a13.5 13.5 0 1 0-27 0", A(ink, 0.35), w2, null);
+                    }
+                    else fill(art.F1, c1, rotate(a, 16, 16));
+                    outline(art.L1, rotate(a, 16, 16));
+                    detail(art.L2, rotate(a, 16, 16));
+                    break;
+                }
+                case "warning":
+                    fill(art.F1, c1, null);
+                    fill(art.F2, A(c2, 0.25 + 0.75 * ((int)(t * 2.5) % 2)), null);
+                    outline(art.L1, null);
+                    line(art.L2, ink, small ? w1 : 2.2f, null);
+                    break;
+                case "filmstrip":
+                {
+                    bool first = (int)(t * 4) % 2 == 0;
+                    fill(art.F1, c1, null);
+                    fill(first ? "M8 10h7v12H8Z" : "M17 10h7v12h-7Z", c2, null);
+                    fill(first ? "M17 10h7v12h-7Z" : "M8 10h7v12H8Z", A(c2, 0.35), null);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    break;
+                }
+                // ---- the hardware and utility icons ----
+                case "laptop":
+                {
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    var pts = new List<PointF>();
+                    for (float x = 10; x <= 22.01f; x += 1.2f)
+                        pts.Add(new PointF(x, (float)(12.5 + 2 * sin(x * 0.8 - t * 4))));
+                    using (var p = new Pen(ink2, small ? w1 : 1.1f) { LineJoin = join }) g.DrawLines(p, pts.ToArray());
+                    break;
+                }
+                case "desktop":
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    fill("M14 22a2 2 0 1 0 4 0a2 2 0 1 0-4 0Z", A(green, 0.35 + 0.65 * (0.5 + 0.5 * sin(t * 3))), null);
+                    if ((int)(t * 6) % 3 != 0) fill("M17.5 7h1.5v1h-1.5Z", hi, null);   // the drive light flickers
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    break;
+                case "server":
+                {
+                    int lit = (int)(t * 3) % 3;
+                    fill(art.F1, c1, null);
+                    fill(art.F2, A(c2, 0.35), null);
+                    fill(ServerLights[lit], hi, null);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    break;
+                }
+                case "motherboard":
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    fill("M7 7h9v9H7Z", A(hi, 0.25 + 0.5 * (0.5 + 0.5 * sin(t * 3))), null);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    break;
+                case "psu":
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    outline(art.L1, null);
+                    detail("M8.5 16h8 M12.5 12v8", rotate((float)(t * 300 % 360), 12.5f, 16));
+                    detail("M21.5 11h5v4.5h-5Z M22.5 20h3 M22.5 22.5h3", null);
+                    break;
+                case "ssd":
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    fill((int)(t * 4) % 2 == 0 ? "M7 12.5h7v7H7Z" : "M16.5 12.5h7v7h-7Z", A(hi, 0.7), null);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    break;
+                case "usb":
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    outline(art.L1, null);
+                    detail("M14 6h1.5v2.5H14Z M16.5 6H18v2.5h-1.5Z M13 16h6", null);
+                    if ((int)(t * 5) % 2 == 0) using (var b = new SolidBrush(hi)) g.FillEllipse(b, 14.6f, 23.6f, 2.8f, 2.8f);   // the light blinks
+                    break;
+                case "keyboard":
+                {
+                    int k = (int)(t * 6) % 12;
+                    float kx = 5 + (k % 6) * 4, ky = k < 6 ? 12.5f : 16f;
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    using (var b = new SolidBrush(hi)) g.FillRectangle(b, kx - 0.6f, ky - 1.4f, 3.2f, 2.8f);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    break;
+                }
+                case "mouse":
+                {
+                    float dy = (float)(1.2 * sin(t * 6));
+                    fill(art.F1, c1, null);
+                    var m = new Matrix();
+                    m.Translate(0, dy);
+                    fill(art.F2, c2, m);
+                    outline(art.L1, null);
+                    break;
+                }
+                case "printer":
+                {
+                    float dy = (float)(t * 2 % 1 * 2.5);
+                    fill(art.F1, c1, null);
+                    fill("M9 4h14v8H9Z", c2, null);
+                    var m = new Matrix();
+                    m.Translate(0, dy);
+                    fill("M9 20h14v9H9Z", c2, m);
+                    outline("M3 12h26v12H3Z M9 4h14v8H9Z", null);
+                    var m2 = new Matrix();
+                    m2.Translate(0, dy);
+                    line("M9 20h14v9H9Z", ink, w1, m2);
+                    var m3 = new Matrix();
+                    m3.Translate(0, dy);
+                    detail("M12 23.5h8 M12 26.5h6", m3);
+                    detail("M24 15.5h2", null);
+                    break;
+                }
+                case "camera":
+                    fill(art.F1, c1, null);
+                    fill(art.F2, A(c2, 0.55 + 0.45 * (0.5 + 0.5 * sin(t * 2.5))), null);
+                    outline(art.L1, null);
+                    detail("M13 17a3 3 0 1 0 6 0a3 3 0 1 0-6 0", null);
+                    line("M24.5 12h2", (int)(t * 2) % 2 == 0 ? hi : ink2, small ? w1 : 1.6f, null);
+                    break;
+                case "speaker":
+                {
+                    int waves = (int)(t * 2.5) % 3;
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    outline(art.L1, null);
+                    if (waves >= 1) detail("M21 12.5a5 5 0 0 1 0 7", null);
+                    if (waves >= 2) detail("M24.5 9a10 10 0 0 1 0 14", null);
+                    break;
+                }
+                case "gamepad":
+                {
+                    bool first = (int)(t * 3) % 2 == 0;
+                    fill(art.F1, c1, null);
+                    fill(first ? "M21 13.3a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0-2.6 0Z" : "M24.2 16.5a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0-2.6 0Z", c2, null);
+                    fill(first ? "M24.2 16.5a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0-2.6 0Z" : "M21 13.3a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0-2.6 0Z", A(c2, 0.35), null);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    break;
+                }
+                case "wifi":
+                case "router":
+                {
+                    int step = (int)(t * 2.5) % 4;
+                    if (name == "wifi")
+                    {
+                        fill("M13.8 25a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0-4.4 0Z", c1, null);
+                        for (int k = 0; k < 3; k++) fill(WifiBands[k], k < step ? c1 : A(c1, 0.2), null);
+                        outline(art.L1, null);
+                    }
+                    else
+                    {
+                        fill(art.F1, c1, null);
+                        fill(art.F2, A(c2, 0.35), null);
+                        if (step < 3) fill(RouterLights[step], hi, null);
+                        outline(art.L1, null);
+                        if (step >= 1) detail("M13.8 12.5a2.8 2.8 0 0 1 4.4 0", null);
+                        if (step >= 2) detail("M11.5 9.5a6 6 0 0 1 9 0", null);
+                        detail("M21.5 22h4", null);
+                    }
+                    break;
+                }
+                case "cloud":
+                {
+                    float p = (float)(t * 0.9 % 1);
+                    fill(art.F1, c1, null);
+                    outline(art.L1, null);
+                    var m = new Matrix();
+                    m.Translate(0, 2 - 4 * p);
+                    if (!small) line(art.L2, A(Theme.Terminal ? ink2 : c2, 1 - p * 0.7), 1.8f, m);
+                    else m.Dispose();
+                    break;
+                }
+                case "download":
+                {
+                    float dy = (float)(1.5 * (0.5 + 0.5 * sin(t * 4)));
+                    fill(art.F1, c1, null);
+                    outline("M4 21h24v7H4Z", null);
+                    var m = new Matrix();
+                    m.Translate(0, dy);
+                    fill("M13 3h6v9h4.5L16 19.5 8.5 12H13Z", c2, m);
+                    var m2 = new Matrix();
+                    m2.Translate(0, dy);
+                    outline("M13 3h6v9h4.5L16 19.5 8.5 12H13Z", m2);
+                    if ((int)(t * 4) % 2 == 0 && !small) line("M24.5 24.5h.01", hi, 2f, null);
+                    break;
+                }
+                case "hourglass":
+                {
+                    double p = t * 0.25 % 1;   // four seconds to run through
+                    fill(art.F1, c1, null);
+                    var s = g.Save();
+                    g.IntersectClip(new RectangleF(0, (float)(8 + 5.5 * p), 32, 32));   // the top empties
+                    g.IntersectClip(new RectangleF(0, 0, 32, 14));
+                    fill("M11 8h10c-.5 2.5-3.5 4.5-5 5.5-1.5-1-4.5-3-5-5.5Z", c2, null);
+                    g.Restore(s);
+                    s = g.Save();
+                    g.IntersectClip(new RectangleF(0, (float)(27 - 6 * p), 32, 32));  // the bottom fills
+                    fill("M10.5 27c0-3 3-5 5.5-6 2.5 1 5.5 3 5.5 6Z", c2, null);
+                    g.Restore(s);
+                    if (p < 0.95 && !small) seg(16, 14, 16, (float)(27 - 6 * p), c2, 1.2f);
+                    outline(art.L1, null);
+                    break;
+                }
+                case "calendar":
+                {
+                    int d = (int)(t * 2) % 8;
+                    float dx = 8 + (d % 3) * 6.5f, dy = 16 + (d / 3) * 4.5f;
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    using (var b = new SolidBrush(A(green, 0.8))) g.FillRectangle(b, dx - 0.8f, dy - 1.6f, 4.6f, 3.2f);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    break;
+                }
+                case "chart":
+                {
+                    fill(art.F1, c1, null);
+                    float[] xs = { 7, 14, 21 }, tops = { 19, 13, 8 };
+                    for (int k = 0; k < 3; k++)
+                    {
+                        float top = (float)(tops[k] + (26 - tops[k]) * 0.45 * (0.5 + 0.5 * sin(t * 2.4 + k * 1.3)));
+                        using (var b = new SolidBrush(c2)) g.FillRectangle(b, xs[k], top, 4, 26 - top);
+                        using (var p = new Pen(ink2, small ? w1 : w2)) g.DrawRectangle(p, xs[k], top, 4, 26 - top);
+                    }
+                    outline(art.L1, null);
+                    detail("M6 26h20", null);
+                    break;
+                }
+                case "bug":
+                {
+                    float a = (float)(8 * sin(t * 10));
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    outline(art.L1, null);
+                    detail("M10 17H5.5 M22 17h4.5 M11 13l-4-3 M21 13l4-3 M14 7.5l-1.5-3 M18 7.5l1.5-3", rotate(a, 16, 17));
+                    detail("M10 22H6 M22 22h4 M11 25l-4 3 M21 25l4 3", rotate(-a, 16, 22));
+                    break;
+                }
+                case "shield":
+                    fill(art.F1, c1, null);
+                    fill(art.F2, c2, null);
+                    outline(art.L1, null);
+                    line(art.L2, A(Theme.Terminal ? ink2 : Hex(0xFFFFFF), 0.4 + 0.6 * (0.5 + 0.5 * sin(t * 3))), small ? w1 : 2f, null);
+                    break;
+                case "terminal":   // text types, the cursor blinks
                 {
                     float len = (float)(t * 5 % 12);
                     bool on = (int)(t * 2.5) % 2 == 0;
@@ -370,6 +866,12 @@ namespace LauncherApp
                     if (len > 0.5f && !small) seg(13, 19.75f, 13 + len, 19.75f, Theme.Terminal ? ink2 : Hex(0xD7FFF6), 1.3f);
                     break;
                 }
+                default:   // the rest gently glow: the second colour breathes
+                    fill(art.F1, c1, null);
+                    fill(art.F2, A(c2, 0.45 + 0.55 * (0.5 + 0.5 * sin(t * 3))), null);
+                    outline(art.L1, null);
+                    detail(art.L2, null);
+                    break;
             }
             g.Restore(state);
         }

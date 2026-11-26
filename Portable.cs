@@ -39,6 +39,9 @@ namespace LauncherApp
         // Icons of running profiles move (and glow) while the profile runs or its programs are open.
         [DataMember(Name = "animateRunning")] public bool AnimateRunning { get; set; }
 
+        // The last 3 delays (in seconds) typed under "Other" in the delay picker, newest first.
+        [DataMember(Name = "recentDelays", EmitDefaultValue = false)] public List<int> RecentDelays { get; set; }
+
         public AppSettings()
         {
             SetDefaults();
@@ -464,6 +467,18 @@ namespace LauncherApp
         {
             Current.Theme = theme;
             JsonFile.WriteAtomic(FilePath, JsonFile.ToJson(Current));
+        }
+
+        // Remembers a delay typed under "Other" (newest first, at most 3). Saving is best effort: if the file
+        // can't be written, it is still remembered until the launcher closes.
+        public static void RememberDelay(int seconds)
+        {
+            var list = Current.RecentDelays == null ? new List<int>() : new List<int>(Current.RecentDelays);
+            list.Remove(seconds);
+            list.Insert(0, seconds);
+            if (list.Count > 3) list.RemoveRange(3, list.Count - 3);
+            Current.RecentDelays = list;
+            try { JsonFile.WriteAtomic(FilePath, JsonFile.ToJson(Current)); } catch { }
         }
 
         // Saves only the layout (from the title bar's C/F button). Throws when the file can't be written.

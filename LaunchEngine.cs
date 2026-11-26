@@ -95,6 +95,8 @@ namespace LauncherApp
             public Tracked[] StepTracked;
             public int Processed = -1;
             public string Activity = "starting";
+            public DateTime? WaitUntil;       // during a delay: when the next program starts (for the countdown)
+            public string NextLabel;          // ... and which program that is
         }
 
         readonly List<Tracked> tracked = new List<Tracked>();
@@ -239,7 +241,7 @@ namespace LauncherApp
                     Elapsed = DateTime.Now - r.Started,
                     Done = r.Processed + 1,
                     Total = r.Steps.Count,
-                    Activity = r.Activity,
+                    Activity = r.WaitUntil.HasValue ? "starting " + r.NextLabel + " in " + Countdown(r.WaitUntil.Value - DateTime.Now) : r.Activity,
                     States = new StepState[r.Steps.Count]
                 };
                 for (int i = 0; i < r.Steps.Count; i++)
@@ -260,6 +262,15 @@ namespace LauncherApp
                 list.Add(info);
             }
             return list;
+        }
+
+        // 09:41, or 1:05:09 from an hour up
+        static string Countdown(TimeSpan left)
+        {
+            if (left < TimeSpan.Zero) left = TimeSpan.Zero;
+            int s = (int)Math.Ceiling(left.TotalSeconds);
+            return s >= 3600 ? (s / 3600) + ":" + (s % 3600 / 60).ToString("00") + ":" + (s % 60).ToString("00")
+                             : (s / 60).ToString("00") + ":" + (s % 60).ToString("00");
         }
 
         static bool LooksStarting(Tracked t)
@@ -328,8 +339,13 @@ namespace LauncherApp
                     if (step.Start == StartMode.AfterDelay && step.DelaySeconds > 0)
                     {
                         run.Activity = "waiting " + Theme.Seconds(step.DelaySeconds);
+                        run.NextLabel = label;
+                        run.WaitUntil = DateTime.Now.AddSeconds(step.DelaySeconds);
+                        if (step.DelaySeconds >= 60)
+                            Note(tag, "wait", label + " starts in " + Theme.Seconds(step.DelaySeconds) + ", at " + run.WaitUntil.Value.ToString("HH:mm"));
                         RaiseChanged();
-                        await Task.Delay(TimeSpan.FromSeconds(step.DelaySeconds), ct);
+                        try { await Task.Delay(TimeSpan.FromSeconds(step.DelaySeconds), ct); }
+                        finally { run.WaitUntil = null; }
                     }
                     else if (step.WaitsForPrevious && prevFailed)
                     {
@@ -419,10 +435,29 @@ namespace LauncherApp
             }
             finally
             {
+                if (profile.StartOnly) LetGo(run, tag);
                 runs.Remove(run);
                 run.Cts.Dispose();
                 RaiseChanged();
             }
+        }
+
+        // Start only: the launch is over, so stop tracking the programs it started. They keep running on their own;
+        // ones another profile uses too stay tracked for that profile.
+        void LetGo(Run run, string tag)
+        {
+            int released = 0;
+            foreach (var t in run.StepTracked.Where(x => x != null).Distinct().ToList())
+            {
+                t.Owners.Remove(run.Profile);
+                if (t.Owners.Count == 0 && tracked.Remove(t))
+                {
+                    t.Dispose();
+                    released++;
+                }
+            }
+            if (released > 0)
+                Note(tag, "info", "start only: " + released + (released == 1 ? " program runs" : " programs run") + " on its own now (not tracked)");
         }
 
         // A launched program that is still open and is the same program with the same arguments.

@@ -209,9 +209,15 @@ namespace LauncherApp
         }
 
         // 45 -> "45 s", 150 -> "2 min 30 s", 600 -> "10 min"
+        // 45 -> "45 s", 600 -> "10 min", 630 -> "10 min 30 s", 3600 -> "1 h", 5400 -> "1 h 30 min", 3630 -> "1 h 30 s"
         public static string Seconds(int t)
         {
             if (t < 120) return t + " s";
+            if (t >= 3600)
+            {
+                int h = t / 3600, m = (t % 3600) / 60, s = t % 60;
+                return h + " h" + (m > 0 ? " " + m + " min" : "") + (s > 0 ? " " + s + " s" : "");
+            }
             if (t % 60 == 0) return (t / 60) + " min";
             return (t / 60) + " min " + (t % 60) + " s";
         }

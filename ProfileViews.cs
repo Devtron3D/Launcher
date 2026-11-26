@@ -138,6 +138,8 @@ namespace LauncherApp
                     lastResult.ToLowerInvariant().Contains("problem") ? Theme.StatusProblem : Theme.Muted));
             if (openCount > 0)
                 parts.Add(new KeyValuePair<string, Color>(Theme.Up(" · " + openCount + " open"), Theme.Accent));
+            else if (Profile.StartOnly)
+                parts.Add(new KeyValuePair<string, Color>(Theme.Up(" · start only"), Theme.Muted));
             const TextFormatFlags measure = TextFormatFlags.NoPadding | TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix;
             int x = line.X;
             foreach (var part in parts)
@@ -427,10 +429,10 @@ namespace LauncherApp
     }
 
     // The editor's icon choice. Closed it looks like a drop-down (small icon, name, arrow); clicking it opens a
-    // grid of big icon tiles with their names under them, 5 across. Picking one closes the grid.
+    // grid of big icon tiles with their names under them, 8 across. Picking one closes the grid.
     class IconPicker : Button
     {
-        const int Columns = 5;
+        const int Columns = 8;
         string selected = "terminal";
         bool hover;
 
@@ -484,7 +486,7 @@ namespace LauncherApp
 
         void ShowGrid()
         {
-            int cellW = Theme.S(92), cellH = Theme.S(100), gap = Theme.S(4), pad = Theme.S(8);
+            int cellW = Theme.S(84), cellH = Theme.S(86), gap = Theme.S(4), pad = Theme.S(8);
             int rows = (Icons.ProfileIcons.Length + Columns - 1) / Columns;
             var panel = new Panel
             {
@@ -544,8 +546,8 @@ namespace LauncherApp
             {
                 var g = e.Graphics;
                 using (var b = new SolidBrush(over || Focused ? Theme.Hover : Theme.Surface)) g.FillRectangle(b, ClientRectangle);
-                int tile = Theme.S(64);
-                var r = new Rectangle((Width - tile) / 2, Theme.S(6), tile, tile);
+                int tile = Theme.S(56);
+                var r = new Rectangle((Width - tile) / 2, Theme.S(5), tile, tile);
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 using (var path = ProfileView.Rounded(r, Theme.Terminal ? 0 : Theme.S(10)))
                 {
@@ -553,7 +555,7 @@ namespace LauncherApp
                     using (var pen = new Pen(current ? Theme.Accent : (Theme.IsDark && !Theme.Terminal ? Color.FromArgb(0x36, 0x3B, 0x42) : Theme.Border), current ? Theme.S(2f) : 1f))
                         g.DrawPath(pen, path);
                 }
-                int icon = Theme.S(50);
+                int icon = Theme.S(44);
                 Icons.DrawProfile(g, name, new RectangleF(r.X + (tile - icon) / 2f, r.Y + (tile - icon) / 2f, icon, icon));
                 TextRenderer.DrawText(g, Theme.Up(Icons.Label(name)), Theme.Small,
                     new Rectangle(0, r.Bottom + Theme.S(4), Width, Height - r.Bottom - Theme.S(4)),

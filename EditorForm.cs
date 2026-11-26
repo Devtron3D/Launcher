@@ -20,7 +20,7 @@ namespace LauncherApp
     // One program in the profile: reorder buttons, name, start condition, delay and its timeline bar.
     class StepRow : Panel
     {
-        public static readonly int TimelineLeft = Theme.S(466);
+        public static readonly int TimelineLeft = Theme.S(500);
         public static readonly int TimelineRightGap = Theme.S(44);
 
         public readonly Step Step;
@@ -31,10 +31,12 @@ namespace LauncherApp
         public int AxisMax = 30;
         public double Playhead = -1;
         public bool Dragging { get; private set; }
-        public NumericUpDown DelayBox { get { return delay; } }
+        public Control DelayBox { get { return delay; } }
 
         ComboBox mode;
-        NumericUpDown delay;
+        DelayPicker delay;
+        Label num;
+        bool isSelected;
         TextBox name;
 
         // Sets the program's name (and so Step.Name) as if it was typed.
@@ -69,12 +71,12 @@ namespace LauncherApp
             up.Location = Theme.P(4, 7);
             var down = ArrowButton(false, !isLast);
             down.Location = Theme.P(28, 7);
-            var num = new Label { Text = number.ToString(), AutoSize = true, Location = Theme.P(58, 10), ForeColor = Theme.Muted };
+            num = new Label { Text = number.ToString(), AutoSize = true, Location = Theme.P(58, 10), ForeColor = Theme.Muted };
             name = new TextBox { Text = step.Name ?? "", Location = Theme.P(80, 7), Width = Theme.S(130) };
             mode = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = Theme.P(216, 7), Width = Theme.S(172) };
             mode.Items.AddRange(new object[] { "Immediately", "After delay", "When previous runs", "When previous exits" });
-            delay = new NumericUpDown { Minimum = 0, Maximum = 3600, Location = Theme.P(394, 7), Width = Theme.S(64) };
-            delay.Value = Math.Max(0, Math.Min(3600, step.DelaySeconds));
+            delay = new DelayPicker { Location = Theme.P(394, 7), Size = Theme.S(98, 23) };
+            ShowDelay(step.DelaySeconds);
             mode.SelectedIndex = (int)step.Start;
 
             Timeline.Location = new Point(TimelineLeft, Theme.S(5));
@@ -84,7 +86,17 @@ namespace LauncherApp
             Timeline.Paint += PaintTimeline;
             Timeline.Cursor = Cursors.SizeWE;
 
-            remove = new Button { Text = "✕", Size = Theme.S(28, 22), Top = Theme.S(7) };
+            remove = new Button { Text = "Remove", Size = Theme.S(28, 22), Top = Theme.S(7) };   // name for screen readers; an X is drawn
+            Theme.MakeIconButton(remove, (g, r, color) =>
+            {
+                float c = Theme.S(4f), cx = r.X + r.Width / 2f, cy = r.Y + r.Height / 2f;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                using (var pen = new Pen(color, Theme.S(1.5f)) { StartCap = LineCap.Round, EndCap = LineCap.Round })
+                {
+                    g.DrawLine(pen, cx - c, cy - c, cx + c, cy + c);
+                    g.DrawLine(pen, cx + c, cy - c, cx - c, cy + c);
+                }
+            });
 
             Controls.Add(up);
             Controls.Add(down);
@@ -105,11 +117,11 @@ namespace LauncherApp
                 UpdateDelayLook();
                 Raise(TimingChanged, this);
             };
-            // The delay box always works: typing a delay switches the program to "After delay".
-            delay.ValueChanged += (s, e) =>
+            // Picking a delay always works: it switches the program to "After delay".
+            delay.Picked += (s, e) =>
             {
-                Step.DelaySeconds = (int)delay.Value;
-                if (Step.Start != StartMode.AfterDelay && delay.Value > 0) mode.SelectedIndex = (int)StartMode.AfterDelay;
+                Step.DelaySeconds = delay.Seconds;
+                if (Step.Start != StartMode.AfterDelay) mode.SelectedIndex = (int)StartMode.AfterDelay;
                 UpdateDelayLook();
                 Raise(TimingChanged, this);
             };
@@ -143,6 +155,8 @@ namespace LauncherApp
             {
                 using (var pen = new Pen(Theme.Divider))
                     e.Graphics.DrawLine(pen, 0, Height - 1, Width, Height - 1);
+                if (isSelected)
+                    using (var b = new SolidBrush(Theme.Accent)) e.Graphics.FillRectangle(b, 0, 0, Theme.S(4), Height);
             };
 
             UpdateDelayLook();
@@ -185,30 +199,48 @@ namespace LauncherApp
         // Delay in grey when it isn't used (Start is not "After delay"), but never disabled.
         public void UpdateDelayLook()
         {
-            delay.ForeColor = Step.Start == StartMode.AfterDelay ? Theme.Text : Theme.Muted;
+            delay.Muted = Step.Start != StartMode.AfterDelay;
+        }
+
+        void ShowDelay(int seconds)
+        {
+            delay.Seconds = seconds;
         }
 
         // Mouse at x in the timeline -> start time in whole seconds -> delay after the previous program.
         void DragTo(int x)
         {
             int w = Math.Max(1, Timeline.Width);
-            int t = (int)Math.Round(Math.Max(0, Math.Min(x, w)) / (double)w * AxisMax);
-            int d = Math.Max(0, Math.Min(3600, t - PrevStartTime));
-            if (Number == 1 && d == 0)
-            {
-                delay.Value = 0;
-                mode.SelectedIndex = (int)StartMode.Immediately;
-            }
-            else
-            {
-                mode.SelectedIndex = (int)StartMode.AfterDelay;
-                delay.Value = d;
-            }
+            // whole seconds on a short timeline, steps of 10 s or a minute on a long one
+            int snap = AxisMax > 7200 ? 60 : AxisMax > 600 ? 10 : 1;
+            int t = (int)Math.Round(Math.Max(0, Math.Min(x, w)) / (double)w * AxisMax / snap) * snap;
+            int d = Math.Max(0, Math.Min(DelayPicker.MaxSeconds, t - PrevStartTime));
+            mode.SelectedIndex = (int)(Number == 1 && d == 0 ? StartMode.Immediately : StartMode.AfterDelay);
+            ShowDelay(d);
+            Step.DelaySeconds = d;
+            UpdateDelayLook();
+            Raise(TimingChanged, this);
         }
 
+        // The selected program (the one the details below are for): a green tint, a green bar on its left edge and
+        // a green number, so it's clear which program's file and options you are changing.
         public void SetSelected(bool selected)
         {
-            BackColor = selected ? Theme.Selected : Theme.Surface;
+            isSelected = selected;
+            BackColor = selected ? SelectedBack : Theme.Surface;
+            num.ForeColor = selected ? Theme.Accent : Theme.Muted;
+            num.Font = selected ? Theme.UiBold : Theme.Ui;
+            Invalidate();
+        }
+
+        static Color SelectedBack
+        {
+            get
+            {
+                Color a = Theme.Accent, b = Theme.Surface;
+                double t = Theme.IsDark ? 0.16 : 0.12;
+                return Color.FromArgb((int)(a.R * t + b.R * (1 - t)), (int)(a.G * t + b.G * (1 - t)), (int)(a.B * t + b.B * (1 - t)));
+            }
         }
 
         protected override void OnResize(EventArgs e)
@@ -260,6 +292,175 @@ namespace LauncherApp
         }
     }
 
+    // The delay of a program: a button showing the time ("10 min ▾"). Clicking it opens common times, the last 3
+    // times you typed yourself, and "Other" for any time in seconds, minutes or hours (up to 24 h).
+    class DelayPicker : Button
+    {
+        public static readonly int[] Common = { 0, 5, 10, 30, 60, 120, 300, 600, 900, 1800, 3600, 7200 };
+        public const int MaxSeconds = 86400;
+        static readonly int[] UnitSeconds = { 1, 60, 3600 };
+        static readonly string[] UnitNames = { "s", "min", "h" };
+
+        int seconds;
+        bool hover, muted;
+
+        // A time was picked in the list (not raised when Seconds is set by code).
+        public event EventHandler Picked;
+
+        public int Seconds
+        {
+            get { return seconds; }
+            set { seconds = Math.Max(0, Math.Min(MaxSeconds, value)); Invalidate(); }
+        }
+
+        // Grey text when the program doesn't start "After delay" (the delay isn't used then).
+        public bool Muted
+        {
+            get { return muted; }
+            set { if (muted != value) { muted = value; Invalidate(); } }
+        }
+
+        public DelayPicker()
+        {
+            Text = "Delay";
+            AccessibleName = "Delay";
+            Cursor = Cursors.Hand;
+            FlatStyle = FlatStyle.Flat;
+            FlatAppearance.BorderSize = 0;
+            MouseEnter += (s, e) => { hover = true; Invalidate(); };
+            MouseLeave += (s, e) => { hover = false; Invalidate(); };
+            Click += (s, e) => ShowList();
+        }
+
+        // 0 -> "0 s", 90 -> "90 s", 600 -> "10 min", 5400 -> "1 h 30 min"
+        public static string Format(int t)
+        {
+            if (t >= 60 && t < 3600 && t % 60 == 0) return (t / 60) + " min";
+            return Theme.Seconds(t);
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (e.KeyCode == Keys.Down || e.KeyCode == Keys.F4) { ShowList(); e.Handled = true; }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            using (var b = new SolidBrush(hover ? Theme.Hover : Theme.Field)) g.FillRectangle(b, ClientRectangle);
+            using (var pen = new Pen(Focused ? Theme.Accent : Theme.Border)) g.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
+            int arrowW = Theme.S(18);
+            TextRenderer.DrawText(g, Theme.Up(Format(seconds)), Theme.Ui, new Rectangle(Theme.S(6), 0, Width - Theme.S(6) - arrowW, Height),
+                muted ? Theme.Muted : Theme.Text, TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+            float cx = Width - arrowW / 2f, cy = Height / 2f, w = Theme.S(3.5f);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            using (var pen = new Pen(Theme.Dim, Theme.S(1.4f)))
+                g.DrawLines(pen, new[] { new PointF(cx - w, cy - w / 2), new PointF(cx, cy + w / 2), new PointF(cx + w, cy - w / 2) });
+        }
+
+        void ShowList()
+        {
+            int pad = Theme.S(10), cellW = Theme.S(64), cellH = Theme.S(28), gap = Theme.S(4), cols = 4;
+            int width = pad * 2 + cols * cellW + (cols - 1) * gap;
+            var panel = new Panel { BackColor = Theme.Surface, Margin = new Padding(0) };
+            var drop = new ToolStripDropDown { Padding = new Padding(1), AutoClose = true };
+            int y = pad;
+            Button focus = null;
+
+            Func<string, Label> heading = text =>
+            {
+                var l = new Label { Text = Theme.Up(text), AutoSize = true, Font = Theme.Small, ForeColor = Theme.Muted, Location = new Point(pad, y) };
+                panel.Controls.Add(l);
+                y += Theme.S(18);
+                return l;
+            };
+            Action<int> pick = value =>
+            {
+                Seconds = value;
+                drop.Close();
+                if (Picked != null) Picked(this, EventArgs.Empty);
+            };
+            Func<int, int, int, Button> timeButton = (value, x, top) =>
+            {
+                bool current = value == seconds;
+                var b = new Button
+                {
+                    Text = Theme.Up(Format(value)),
+                    Bounds = new Rectangle(x, top, cellW, cellH),
+                    Tag = current ? Theme.Primary : Theme.Outline
+                };
+                b.Click += (s, e) => pick(value);
+                panel.Controls.Add(b);
+                if (current) focus = b;
+                return b;
+            };
+
+            heading("Common");
+            for (int i = 0; i < Common.Length; i++)
+                timeButton(Common[i], pad + (i % cols) * (cellW + gap), y + (i / cols) * (cellH + gap));
+            y += ((Common.Length + cols - 1) / cols) * (cellH + gap) + Theme.S(6);
+
+            var recent = (SettingsStore.Current.RecentDelays ?? new List<int>()).Where(v => v >= 0 && v <= MaxSeconds).Take(3).ToList();
+            if (recent.Count > 0)
+            {
+                heading("Your recent times");
+                for (int i = 0; i < recent.Count; i++) timeButton(recent[i], pad + i * (cellW + gap), y);
+                y += cellH + Theme.S(10);
+            }
+
+            // Other: a number and a unit (three small buttons: s / min / h), Enter or Set to use it
+            heading("Other");
+            int unit = seconds >= 3600 && seconds % 3600 == 0 ? 2 : seconds >= 60 && seconds % 60 == 0 ? 1 : 0;
+            var number = new NumericUpDown { Minimum = 0, Maximum = MaxSeconds, Location = new Point(pad, y + Theme.S(2)), Width = Theme.S(56) };
+            number.Value = seconds / UnitSeconds[unit];
+            panel.Controls.Add(number);
+            var unitButtons = new Button[3];
+            Action showUnit = () =>
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    unitButtons[k].Tag = k == unit ? Theme.Primary : Theme.Outline;
+                    Theme.StyleButton(unitButtons[k]);
+                }
+                number.Maximum = MaxSeconds / UnitSeconds[unit];   // 86400 s, 1440 min, 24 h
+            };
+            for (int k = 0; k < 3; k++)
+            {
+                int kk = k;
+                unitButtons[k] = new Button { Text = UnitNames[k], Bounds = new Rectangle(pad + Theme.S(62) + k * Theme.S(48), y, Theme.S(46), cellH) };
+                unitButtons[k].Click += (s, e) => { unit = kk; showUnit(); number.Focus(); };
+                panel.Controls.Add(unitButtons[k]);
+            }
+            var set = new Button { Text = "Set", Bounds = new Rectangle(width - pad - Theme.S(56), y, Theme.S(56), cellH), Tag = Theme.Primary };
+            Action useOther = () =>
+            {
+                int value = (int)number.Value * UnitSeconds[unit];
+                if (Array.IndexOf(Common, value) < 0) SettingsStore.RememberDelay(value);   // only times not in the list
+                pick(value);
+            };
+            set.Click += (s, e) => useOther();
+            number.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter) { useOther(); e.SuppressKeyPress = true; }
+                else if (e.KeyCode == Keys.Escape) { drop.Close(); e.SuppressKeyPress = true; }
+            };
+            panel.Controls.Add(set);
+            y += cellH + pad;
+
+            panel.Size = new Size(width, y);
+            Theme.Apply(panel);
+            panel.BackColor = Theme.Surface;
+            showUnit();
+            var host = new ToolStripControlHost(panel) { Margin = new Padding(0), Padding = new Padding(0), AutoSize = false, Size = panel.Size };
+            drop.Items.Add(host);
+            Theme.StyleDropDown(drop);
+            drop.Closed += (s, e) => BeginInvoke((Action)(() => { drop.Dispose(); Focus(); }));
+            drop.Show(this, new Point(0, Height));
+            if (focus != null) focus.Focus(); else { number.Focus(); number.Select(0, number.Text.Length); }
+        }
+    }
+
     public class EditorForm : Form
     {
         // Possible spacings between time axis labels, in seconds.
@@ -276,6 +477,7 @@ namespace LauncherApp
 
         TextBox nameBox, pathBox, argsBox;
         IconPicker iconBox;
+        CheckBox startOnlyBox;
         CheckBox adminBox, minimizedBox;
         NumericUpDown timeoutBox;
         FlowLayoutPanel timeoutRow;
@@ -310,6 +512,8 @@ namespace LauncherApp
             Shown += (s, e) => nameBox.Select(nameBox.TextLength, 0);   // cursor at the end, nothing highlighted
             iconBox.Selected = Icons.For(profile);
             iconBox.SelectedChanged += (s, e) => profile.Icon = iconBox.Selected;
+            startOnlyBox.Checked = profile.StartOnly;
+            startOnlyBox.CheckedChanged += (s, e) => profile.StartOnly = startOnlyBox.Checked;
             RebuildRows();
             snapshot = CurrentJson();
 
@@ -350,6 +554,11 @@ namespace LauncherApp
             fields.Controls.Add(field(Theme.Up("Name"), nameBox));
             iconBox = new IconPicker { Width = Theme.S(200) };
             fields.Controls.Add(field(Theme.Up("Icon"), iconBox));
+            startOnlyBox = new CheckBox { Text = "Start only", AutoSize = true, Margin = Theme.Pad(0, 4, 0, 0) };
+            fields.Controls.Add(field(Theme.Up("After launch"), startOnlyBox));
+            tips.SetToolTip(startOnlyBox, "Start only: once every program has started, the profile is done.\n" +
+                "The launcher lets go of the programs: they don't count as open and Close all leaves them alone.\n" +
+                "Handy for tests and benchmarks that run and finish on their own.");
             top.Controls.Add(fields, 0, 0);
 
             var actions = new FlowLayoutPanel { AutoSize = true, WrapContents = false, Anchor = AnchorStyles.Right | AnchorStyles.Bottom, Margin = new Padding(0) };
@@ -367,7 +576,7 @@ namespace LauncherApp
             var header = new Panel { Dock = DockStyle.Fill };
             header.Controls.Add(new Label { Text = Theme.Up("Program"), AutoSize = true, Font = Theme.Small, Location = Theme.P(80, 8), ForeColor = Theme.Muted });
             header.Controls.Add(new Label { Text = Theme.Up("Start"), AutoSize = true, Font = Theme.Small, Location = Theme.P(216, 8), ForeColor = Theme.Muted });
-            header.Controls.Add(new Label { Text = Theme.Up("Delay (s)"), AutoSize = true, Font = Theme.Small, Location = Theme.P(394, 8), ForeColor = Theme.Muted });
+            header.Controls.Add(new Label { Text = Theme.Up("Delay"), AutoSize = true, Font = Theme.Small, Location = Theme.P(394, 8), ForeColor = Theme.Muted });
             axis = new DoubleBufferedPanel { Location = new Point(StepRow.TimelineLeft, Theme.S(2)), Size = Theme.S(300, 24) };
             axis.Paint += PaintAxis;
             header.Controls.Add(axis);
@@ -595,7 +804,8 @@ namespace LauncherApp
                 var row = new StepRow(profile.Steps[i], i + 1, i == profile.Steps.Count - 1);
                 row.Width = RowWidth();
                 tips.SetToolTip(row.Timeline, "Drag to set when this program starts (whole seconds after the program before it).");
-                tips.SetToolTip(row.DelayBox, "Seconds to wait after the previous program started. Typing a delay switches Start to \"After delay\".");
+                tips.SetToolTip(row.DelayBox, "How long to wait after the previous program started: click for common times,\n" +
+                                              "your last 3 own times, or any time up to 24 h. Picking one switches Start to \"After delay\".");
                 Theme.Apply(row);
                 row.UpdateDelayLook();   // after the theme, which sets every number box to the normal text colour
                 row.SelectRequested += (s, e) => SelectRow(rows.IndexOf((StepRow)s));
@@ -711,8 +921,9 @@ namespace LauncherApp
         void UpdateDetailsTitle()
         {
             detailsTitle.Text = InRange(selected)
-                ? Theme.Up("Selected program") + " · " + (selected + 1) + " · " + Theme.Up(profile.Steps[selected].DisplayName)
+                ? Theme.Up("Program") + " " + (selected + 1) + " · " + Theme.Up(profile.Steps[selected].DisplayName)
                 : Theme.Up("Selected program");
+            detailsTitle.ForeColor = InRange(selected) ? Theme.Accent : (Theme.Terminal ? Theme.Accent : Theme.Bright);
         }
 
         void MoveStep(int i, int dir)
@@ -867,14 +1078,24 @@ namespace LauncherApp
         {
             var g = e.Graphics;
             int w = axis.Width;
-            for (int t = 0; t <= axisMax; t += axisStep)
+            float gap = Theme.S(10f);
+            using (var b = new SolidBrush(Theme.Muted))
             {
-                string txt = Theme.Seconds(t);
-                var size = g.MeasureString(txt, Theme.Small);
-                float x = (float)t / axisMax * w;
-                float tx = t == 0 ? 0 : (t >= axisMax ? w - size.Width : x - size.Width / 2);
-                using (var b = new SolidBrush(Theme.Muted))
+                // the end label first (right-aligned), then the others from the left, leaving out any that would touch
+                // the one before it or the end label
+                string endText = Theme.Seconds(axisMax);
+                float endLeft = w - g.MeasureString(endText, Theme.Small).Width;
+                g.DrawString(endText, Theme.Small, b, endLeft, Theme.S(4f));
+                float lastRight = float.MinValue;
+                for (int t = 0; t < axisMax; t += axisStep)
+                {
+                    string txt = Theme.Seconds(t);
+                    float width = g.MeasureString(txt, Theme.Small).Width;
+                    float tx = t == 0 ? 0 : (float)t / axisMax * w - width / 2;
+                    if (tx < lastRight + gap || tx + width > endLeft - gap) continue;
                     g.DrawString(txt, Theme.Small, b, tx, Theme.S(4f));
+                    lastRight = tx + width;
+                }
             }
         }
     }

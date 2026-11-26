@@ -10,7 +10,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
     <!-- No Launcher.exe.config next to the exe: it only named .NET Framework 4.8, which Windows 10/11 always have,
          and with hidden file extensions it showed up as a second "Launcher.exe". -->
     <GenerateSupportedRuntime>false</GenerateSupportedRuntime>

@@ -90,6 +90,10 @@ namespace LauncherApp
         // Icon name (see Icons.ProfileIcons). Empty = guessed from the profile name.
         [DataMember(Name = "icon", EmitDefaultValue = false)] public string Icon { get; set; }
 
+        // Start only: once every program has started, the launcher lets go of them. They don't count as open,
+        // Close all leaves them alone, and the profile is done (for tests and benchmarks that run on their own).
+        [DataMember(Name = "startOnly", EmitDefaultValue = false)] public bool StartOnly { get; set; }
+
         public Profile()
         {
             Steps = new List<Step>();
@@ -97,7 +101,7 @@ namespace LauncherApp
 
         public Profile Clone()
         {
-            var p = new Profile { Name = Name, Icon = Icon };
+            var p = new Profile { Name = Name, Icon = Icon, StartOnly = StartOnly };
             foreach (var s in Steps) p.Steps.Add(s.Clone());
             return p;
         }
@@ -208,6 +212,8 @@ namespace LauncherApp
             var iconEl = pe.Element("icon");
             string iconType = iconEl == null ? null : (string)iconEl.Attribute("type");
             if (iconEl != null && (iconType == null || iconType == "string")) p.Icon = (string)iconEl;
+            var startOnlyEl = pe.Element("startOnly");
+            if (startOnlyEl != null && (string)startOnlyEl.Attribute("type") == "boolean") p.StartOnly = (bool)startOnlyEl;
 
             var stepsEl = pe.Element("steps");
             if (stepsEl != null && (string)stepsEl.Attribute("type") == "array")

@@ -8,10 +8,17 @@ namespace LauncherApp
     static class Icons
     {
         // Icons a profile can have (saved by name in profiles.json). Drawn by ProfileIconArt.
+        // Grouped: computers, parts, devices, network, tests, benchmarking, utilities.
         public static readonly string[] ProfileIcons =
         {
-            "terminal", "thermometer", "chip", "gpu", "memory", "network", "flame", "gauge", "disk", "monitor",
-            "bolt", "fan", "battery", "tools", "stopwatch"
+            "laptop", "desktop", "server", "phone",
+            "chip", "gpu", "memory", "motherboard", "psu", "fan", "disk", "ssd", "usb", "sdcard",
+            "monitor", "keyboard", "mouse", "printer", "camera", "speaker", "headphones", "gamepad",
+            "network", "wifi", "router", "globe", "cloud",
+            "thermometer", "flame", "gauge", "stopwatch", "hourglass", "calendar", "chart", "bolt", "battery", "plug",
+            "trophy", "target", "checklist", "flask", "magnifier", "pulse", "dumbbell", "rocket", "loop", "snowflake",
+            "warning", "filmstrip", "info",
+            "terminal", "tools", "bug", "shield", "download"
         };
 
         // "gpu" -> "Graphics card": the name shown in the editor.
@@ -21,6 +28,26 @@ namespace LauncherApp
             {
                 case "gpu": return "Graphics card";
                 case "tools": return "Tools";
+                case "desktop": return "Desktop PC";
+                case "psu": return "Power supply";
+                case "ssd": return "SSD";
+                case "usb": return "USB stick";
+                case "sdcard": return "SD card";
+                case "gamepad": return "Controller";
+                case "wifi": return "Wi-Fi";
+                case "globe": return "Internet";
+                case "chart": return "Results";
+                case "shield": return "Security";
+                case "disk": return "Hard disk";
+                case "trophy": return "Score";
+                case "flask": return "Lab test";
+                case "magnifier": return "Inspect";
+                case "dumbbell": return "Load";
+                case "rocket": return "Performance";
+                case "loop": return "Repeat";
+                case "snowflake": return "Cooling";
+                case "filmstrip": return "FPS";
+                case "info": return "System info";
                 default: return string.IsNullOrEmpty(name) ? "" : char.ToUpperInvariant(name[0]) + name.Substring(1);
             }
         }
@@ -41,6 +68,45 @@ namespace LauncherApp
         public static string Guess(string name)
         {
             string n = (name ?? "").ToLowerInvariant();
+            if (Has(n, "laptop", "notebook")) return "laptop";
+            if (Has(n, "server")) return "server";
+            if (Has(n, "desktop", "tower", "workstation")) return "desktop";
+            if (Has(n, "phone", "android", "iphone", "mobile", "tablet")) return "phone";
+            if (Has(n, "usb", "flash drive", "pendrive", "thumb drive")) return "usb";
+            if (Has(n, "sd card", "sdcard", "microsd")) return "sdcard";
+            if (Has(n, "ssd", "nvme", "m.2")) return "ssd";
+            if (Has(n, "motherboard", "mainboard", "bios", "uefi")) return "motherboard";
+            if (Has(n, "psu", "power supply")) return "psu";
+            if (Has(n, "keyboard", "keys")) return "keyboard";
+            if (Has(n, "mouse")) return "mouse";
+            if (Has(n, "print")) return "printer";
+            if (Has(n, "camera", "webcam")) return "camera";
+            if (Has(n, "headphone", "headset")) return "headphones";
+            if (Has(n, "audio", "sound", "speaker")) return "speaker";
+            if (Has(n, "game", "controller", "gamepad", "joystick")) return "gamepad";
+            if (Has(n, "wifi", "wi-fi", "wireless", "wlan")) return "wifi";
+            if (Has(n, "router")) return "router";
+            if (Has(n, "internet", "browser", "web")) return "globe";
+            if (Has(n, "cloud", "backup", "upload", "sync")) return "cloud";
+            if (Has(n, "virus", "malware", "security", "defender", "antivirus")) return "shield";
+            if (Has(n, "debug", "bug", "diagnos", "crash")) return "bug";
+            if (Has(n, "update", "download", "driver", "install")) return "download";
+            if (Has(n, "schedule", "calendar", "daily", "weekly", "nightly")) return "calendar";
+            if (Has(n, "wait", "idle", "overnight")) return "hourglass";
+            if (Has(n, "result", "report", "score", "chart", "log")) return "chart";
+            if (Has(n, "score", "leaderboard", "record")) return "trophy";
+            if (Has(n, "fps", "frame", "video", "render")) return "filmstrip";
+            if (Has(n, "loop", "repeat", "cycle", "endurance", "24h", "soak")) return "loop";
+            if (Has(n, "load test", "workload", "weight")) return "dumbbell";
+            if (Has(n, "performance", "boost", "speed", "overclock")) return "rocket";
+            if (Has(n, "checklist", "test plan", "qa ", "checks")) return "checklist";
+            if (Has(n, "lab", "experiment")) return "flask";
+            if (Has(n, "scan", "inspect")) return "magnifier";
+            if (Has(n, "pulse", "heart", "vital")) return "pulse";
+            if (Has(n, "frost", "freeze", "cold", "chill")) return "snowflake";
+            if (Has(n, "stability", "error", "warn")) return "warning";
+            if (Has(n, "info", "specs", "cpu-z", "cpuz", "inventory")) return "info";
+            if (Has(n, "target", "accuracy", "goal")) return "target";
             if (Has(n, "gpu", "graphic", "furmark", "3dmark", "occt gpu", "unigine")) return "gpu";
             if (Has(n, "memtest", "memory", "ram ", " ram", "dimm")) return "memory";
             if (Has(n, "stress", "prime", "burn", "heat", "temp", "thermal")) return "thermometer";
@@ -48,7 +114,8 @@ namespace LauncherApp
             if (Has(n, "net", "ping", "wifi", "lan", "ip ")) return "network";
             if (Has(n, "disk", "ssd", "hdd", "nvme", "storage", "drive")) return "disk";
             if (Has(n, "fan", "cool")) return "fan";
-            if (Has(n, "battery", "laptop", "charge")) return "battery";
+            if (Has(n, "battery", "charge")) return "battery";
+            if (Has(n, "plug", "cable", "socket")) return "plug";
             if (Has(n, "sensor", "monitor", "gauge")) return "gauge";
             if (Has(n, "power", "psu", "volt")) return "bolt";
             if (Has(n, "display", "screen")) return "monitor";

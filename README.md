@@ -8,11 +8,15 @@ them in order with one click. Everything it saves stays on the stick.
 ## Features
 
 - **Profiles:** start programs immediately, after a delay, once the previous one is running, or once it has closed.
+- **Scheduling:** pick a delay from common times, your last 3 own times, or any time up to 24 h, with a countdown
+  to the next program.
+- **Start only:** a profile can be done once everything has started, for tests and benchmarks that run on their own.
 - **Timeline editor:** drag a program's bar to set when it starts.
 - **Moves with the stick:** paths are stored relative to the stick, so a new drive letter doesn't matter. If a
   program has moved, the launcher asks where it is instead of failing.
 - **Several profiles at once,** and **Close all** closes only the programs the launcher started.
 - **Keeps the PC clean:** temp files (and optionally AppData) go to the stick.
+- **55 icons** for profiles (computers, parts, devices, network, tests, benchmarking) that move while a profile runs.
 - **Per-program admin rights,** compact and full layouts, and dark, light and green-phosphor looks.
 
 ## Screenshots
