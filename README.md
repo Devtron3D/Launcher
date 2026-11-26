@@ -45,5 +45,5 @@ To start a profile from a shortcut, use `Launcher.exe --run "Profile name"`.
 dotnet build -c Release
 ```
 
-The output is `bin\Release\net48\Launcher.exe`. GitHub Actions builds every push and attaches the exe to a release
-when you push a `v*` tag.
+The output is `bin\Release\net48\Launcher.exe`. GitHub Actions builds every push. To publish a release, raise
+`<Version>` in `LauncherApp.csproj` and push: a release for that version is created with the exe attached.
