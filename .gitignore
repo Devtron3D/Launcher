@@ -1,0 +1,12 @@
+# Build output
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Files the launcher creates next to itself at runtime
+profiles.json
+launcher-settings.json
+PortableData/
+Exported profiles/
