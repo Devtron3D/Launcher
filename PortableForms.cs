@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace LauncherApp
 {
-    // Lists programs to pick from, made for the keyboard (mockup J2): one list of the current folder with a
+    // Lists programs to pick from, made for the keyboard: one list of the current folder with a
     // clickable folder path, Name / Where / Size / Version columns, and likely matches (when looking for a missing
     // program) pinned on top. Type to jump to a name, Enter opens a folder or uses the program, Backspace goes up,
     // Alt+Left goes back, Ctrl+F lists everything 2 levels down, Esc clears / cancels.

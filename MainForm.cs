@@ -276,7 +276,7 @@ namespace LauncherApp
             };
         }
 
-        // Main = the wide window with profile tiles (mockup B); compact = the narrow list. Chosen in Settings.
+        // Main = the wide window with profile tiles; compact = the narrow list. Chosen in Settings.
         static bool IsMainLayout
         {
             get { return SettingsStore.Current.Layout != AppSettings.CompactLayout; }
@@ -340,7 +340,7 @@ namespace LauncherApp
             RefreshAll();
         }
 
-        // Mockup B with the N1 title bar: the window's own title bar (stick, counters, Check, light/dark, menu),
+        // The full layout: the window's own title bar (stick, counters, Check, light/dark, menu),
         // the profiles as cards, and a status bar (what is happening, programs open, Stop all, Close launched programs).
         void BuildMainUi()
         {

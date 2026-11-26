@@ -16,7 +16,7 @@ namespace LauncherApp
         public readonly Profile Profile;
         public readonly Button EditButton = new Button { Text = "Edit", Tag = Theme.Link };
         public readonly Button RunButton;
-        // While busy: "Running · 01:12" with a light sweeping across; pointing at it turns it into Stop (mockup L1 C).
+        // While busy: "Running · 01:12" with a light sweeping across; pointing at it turns it into Stop.
         public readonly BusyButton StopButton = new BusyButton();
         public readonly Button MoreButton = new Button { Text = "More", Tag = Theme.Link };
 
@@ -209,10 +209,10 @@ namespace LauncherApp
 
         public static int Radius { get { return Theme.Terminal ? 0 : Theme.S(8); } }
 
-        // The profile's icon on its own small tile, as in the icon mockups: grey in Dark (the drawings' dark
+        // The profile's icon on its own small tile: grey in Dark (the drawings' dark
         // outline needs it), white with a border in Light, dark green in Green phosphor.
-        // While the profile is busy (launching, or programs it started are open) its icon moves (mockup K1) and the
-        // whole card or row breathes a soft green glow (K2). Off when the setting or Windows' animation effects are
+        // While the profile is busy (launching, or programs it started are open) its icon moves and the
+        // whole card or row breathes a soft green glow. Off when the setting or Windows' animation effects are
         // off; then the card only gets a steady green border.
         public bool Active { get { return Running || openCount > 0; } }
         protected double animTime;
@@ -563,7 +563,7 @@ namespace LauncherApp
         }
     }
 
-    // The button of a busy profile (mockup L1, option C): "Running · 01:12" with a band of light sweeping across.
+    // The button of a busy profile: "Running · 01:12" with a band of light sweeping across.
     // Pointing at it (or keyboard focus) turns it into a red "Stop". The click is handled by the main window:
     // during the launch it stops the launch, after it it closes the programs the profile started.
     class BusyButton : Button

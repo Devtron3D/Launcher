@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace LauncherApp
 {
-    // What the title bar knows about the drive the launcher runs from (mockups N1/N2).
+    // What the title bar knows about the drive the launcher runs from.
     class StickInfo
     {
         public string Root = "";          // "E:\"
@@ -64,7 +64,7 @@ namespace LauncherApp
 
     // The colours and fonts of the title bar: square blocks in one calm colour on a darker bar, capitals in
     // Bahnschrift, green only for what is live (running, the stick's usage), red for close and a full stick.
-    static class Lcars
+    static class BarStyle
     {
         public static Color Back, Block, Ink, InkDim, Accent, Red, Warn, Line;
         static Font label, small, big;
@@ -204,20 +204,20 @@ namespace LauncherApp
         // Called after the theme has styled the window: the bar keeps its own colours.
         public void ApplyColors()
         {
-            Lcars.Use();
-            BackColor = Lcars.Back;
+            BarStyle.Use();
+            BackColor = BarStyle.Back;
             foreach (var b in new Control[] { CheckButton, LayoutButton, LookButton, MenuButton, WarnChip, Stick, MinButton, MaxButton, CloseButton })
             {
                 if (b == null) continue;
-                b.BackColor = Lcars.Back;
-                b.ForeColor = Lcars.Ink;
+                b.BackColor = BarStyle.Back;
+                b.ForeColor = BarStyle.Ink;
                 var button = b as Button;
                 if (button != null)
                 {
                     button.FlatStyle = FlatStyle.Flat;
                     button.FlatAppearance.BorderSize = 0;
-                    button.FlatAppearance.MouseOverBackColor = Lcars.Back;
-                    button.FlatAppearance.MouseDownBackColor = Lcars.Back;
+                    button.FlatAppearance.MouseOverBackColor = BarStyle.Back;
+                    button.FlatAppearance.MouseDownBackColor = BarStyle.Back;
                 }
                 b.Invalidate();
             }
@@ -227,31 +227,31 @@ namespace LauncherApp
         public TitleBar(bool compact, Button lookButton, Button layoutButton)
         {
             Compact = compact;
-            Lcars.Use();
+            BarStyle.Use();
             SuspendLayout();   // no layout until every part exists
             DoubleBuffered = true;
             ResizeRedraw = true;
             Height = Pad + BlockHeight + Pad + 1;
-            BackColor = Lcars.Back;
+            BackColor = BarStyle.Back;
             Stick = new StickButton(compact);
             Controls.Add(Stick);
 
-            Lcars.Attach(WarnChip, () => Compact ? "!" : WarnChip.Text.ToUpperInvariant(), () => Lcars.Warn);
+            BarStyle.Attach(WarnChip, () => Compact ? "!" : WarnChip.Text.ToUpperInvariant(), () => BarStyle.Warn);
             Controls.Add(WarnChip);
 
             if (!compact)
             {
                 CheckButton = new Button { Text = "Check", AutoSize = false };
-                Lcars.Attach(CheckButton, () => "CHECK");
+                BarStyle.Attach(CheckButton, () => "CHECK");
                 Controls.Add(CheckButton);
             }
             LayoutButton = layoutButton;
-            Lcars.Attach(LayoutButton, () => Compact ? "(F)" : "(C)");
+            BarStyle.Attach(LayoutButton, () => Compact ? "(F)" : "(C)");
             Controls.Add(LayoutButton);
             LookButton = lookButton;
-            Lcars.Attach(LookButton, () => Theme.IsDark ? "LIGHT" : "DARK");
+            BarStyle.Attach(LookButton, () => Theme.IsDark ? "LIGHT" : "DARK");
             Controls.Add(LookButton);
-            Lcars.Attach(MenuButton, () => "⋯");
+            BarStyle.Attach(MenuButton, () => "⋯");
             Controls.Add(MenuButton);
             foreach (var b in new[] { MinButton, MaxButton, CloseButton }) Controls.Add(b);
             MinButton.Click += (s, e) => { var f = FindForm(); if (f != null) f.WindowState = FormWindowState.Minimized; };
@@ -338,7 +338,7 @@ namespace LauncherApp
                 if (Compact) warnW = Theme.S(30);
                 else
                     using (var g = CreateGraphics())
-                        warnW = TextRenderer.MeasureText(g, WarnChip.Text.ToUpperInvariant(), Lcars.Label, Size.Empty, TextFormatFlags.NoPadding).Width + Theme.S(20);
+                        warnW = TextRenderer.MeasureText(g, WarnChip.Text.ToUpperInvariant(), BarStyle.Label, Size.Empty, TextFormatFlags.NoPadding).Width + Theme.S(20);
             }
             int stickW = Theme.S(Compact ? 170 : 210), nameW = Compact ? 0 : Theme.S(128), minStick = Theme.S(90);
             Func<int, int> room = name => rightEdge - Gap - Pad - (name > 0 ? name + Gap : 0) - (warnW > 0 ? warnW + Gap : 0);
@@ -382,24 +382,24 @@ namespace LauncherApp
         {
             base.OnPaint(e);
             var g = e.Graphics;
-            using (var b = new SolidBrush(Lcars.Back)) g.FillRectangle(b, ClientRectangle);
+            using (var b = new SolidBrush(BarStyle.Back)) g.FillRectangle(b, ClientRectangle);
 
             if (!nameBlock.IsEmpty)
             {
-                Lcars.Fill(g, nameBlock, Lcars.Block);
+                BarStyle.Fill(g, nameBlock, BarStyle.Block);
                 Wordmark(g, nameBlock);
             }
             if (!countBlock.IsEmpty) Counter(g, countBlock);
-            if (filler.Width > 0) Lcars.Fill(g, filler, Lcars.Block);
-            using (var pen = new Pen(Lcars.Line)) g.DrawLine(pen, 0, Height - 1, Width, Height - 1);
+            if (filler.Width > 0) BarStyle.Fill(g, filler, BarStyle.Block);
+            using (var pen = new Pen(BarStyle.Line)) g.DrawLine(pen, 0, Height - 1, Width, Height - 1);
         }
 
         // LAUNCHER: bigger than the other labels, the L bigger still, slanted like italics (Bahnschrift has no
         // italic, so the letters are drawn as a shape and sheared). Both parts share one baseline.
         void Wordmark(Graphics g, Rectangle r)
         {
-            var family = Lcars.Label.FontFamily;
-            var style = Lcars.Label.Style;
+            var family = BarStyle.Label.FontFamily;
+            var style = BarStyle.Label.Style;
             float big = Theme.S(25f), rest = Theme.S(19f);   // em sizes in pixels
             float ascBig = big * family.GetCellAscent(style) / family.GetEmHeight(style);
             float ascRest = rest * family.GetCellAscent(style) / family.GetEmHeight(style);
@@ -418,23 +418,23 @@ namespace LauncherApp
                 }
                 var old = g.SmoothingMode;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
-                using (var b = new SolidBrush(Lcars.Ink)) g.FillPath(b, path);
+                using (var b = new SolidBrush(BarStyle.Ink)) g.FillPath(b, path);
                 g.SmoothingMode = old;
             }
         }
 
-        // "▶ 2 RUNNING   ▭ 3 OPEN" (mockup P1 · C4): a play sign and a window sign, each with its number and word.
+        // "▶ 2 RUNNING   ▭ 3 OPEN": a play sign and a window sign, each with its number and word.
         // The play sign and the running number turn green while something runs.
         void Counter(Graphics g, Rectangle r)
         {
-            Lcars.Fill(g, r, Lcars.Block);
+            BarStyle.Fill(g, r, BarStyle.Block);
             const TextFormatFlags f = TextFormatFlags.NoPadding | TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix;
-            Color runInk = Running > 0 ? Lcars.Accent : Lcars.Ink;
+            Color runInk = Running > 0 ? BarStyle.Accent : BarStyle.Ink;
             string run = Running.ToString(), open = Open.ToString();
-            var rSize = TextRenderer.MeasureText(g, run, Lcars.Big, Size.Empty, f);
-            var oSize = TextRenderer.MeasureText(g, open, Lcars.Big, Size.Empty, f);
-            var w1 = TextRenderer.MeasureText(g, "RUNNING", Lcars.Small, Size.Empty, f);
-            var w2 = TextRenderer.MeasureText(g, "OPEN", Lcars.Small, Size.Empty, f);
+            var rSize = TextRenderer.MeasureText(g, run, BarStyle.Big, Size.Empty, f);
+            var oSize = TextRenderer.MeasureText(g, open, BarStyle.Big, Size.Empty, f);
+            var w1 = TextRenderer.MeasureText(g, "RUNNING", BarStyle.Small, Size.Empty, f);
+            var w2 = TextRenderer.MeasureText(g, "OPEN", BarStyle.Small, Size.Empty, f);
             int icon = Theme.S(12), gap = Theme.S(5), between = Theme.S(14);
             int total = icon + gap + rSize.Width + gap + w1.Width + between + Theme.S(14) + gap + oSize.Width + gap + w2.Width;
             int x = r.X + Math.Max(0, (r.Width - total) / 2);
@@ -448,25 +448,25 @@ namespace LauncherApp
                 g.FillPolygon(b, new[] { new PointF(x + Theme.S(1f), cy - icon / 2f), new PointF(x + icon, cy), new PointF(x + Theme.S(1f), cy + icon / 2f) });
             g.SmoothingMode = old;
             x += icon + gap;
-            TextRenderer.DrawText(g, run, Lcars.Big, new Point(x, top), runInk, f);
+            TextRenderer.DrawText(g, run, BarStyle.Big, new Point(x, top), runInk, f);
             x += rSize.Width + gap;
-            TextRenderer.DrawText(g, "RUNNING", Lcars.Small, new Point(x, wordTop), Lcars.InkDim, f);
+            TextRenderer.DrawText(g, "RUNNING", BarStyle.Small, new Point(x, wordTop), BarStyle.InkDim, f);
             x += w1.Width + between;
 
-            using (var pen = new Pen(Lcars.Ink, Theme.S(1.5f)))   // window sign: a frame with a title line
+            using (var pen = new Pen(BarStyle.Ink, Theme.S(1.5f)))   // window sign: a frame with a title line
             {
                 float w = Theme.S(14f), h = Theme.S(11f), wy = cy - h / 2f;
                 g.DrawRectangle(pen, x, wy, w, h);
                 g.DrawLine(pen, x, wy + Theme.S(3.5f), x + w, wy + Theme.S(3.5f));
             }
             x += Theme.S(14) + gap;
-            TextRenderer.DrawText(g, open, Lcars.Big, new Point(x, top), Lcars.Ink, f);
+            TextRenderer.DrawText(g, open, BarStyle.Big, new Point(x, top), BarStyle.Ink, f);
             x += oSize.Width + gap;
-            TextRenderer.DrawText(g, "OPEN", Lcars.Small, new Point(x, wordTop), Lcars.InkDim, f);
+            TextRenderer.DrawText(g, "OPEN", BarStyle.Small, new Point(x, wordTop), BarStyle.InkDim, f);
         }
     }
 
-    // The stick block (mockup P1 · S5): a small ring that fills with how much of the stick is used, then the
+    // The stick block: a small ring that fills with how much of the stick is used, then the
     // stick's name and free space, all centred on the block. The ring and the free space turn red when the stick
     // is nearly full. Clicking it opens the stick panel.
     class StickButton : Button
@@ -477,7 +477,7 @@ namespace LauncherApp
         readonly bool compact;
         bool hover, down, keyFocus;
 
-        // Almost full (mockup P2 · W10): thin red rings ripple out from the ring, like a radar ping, two at a
+        // Almost full: thin red rings ripple out from the ring, like a radar ping, two at a
         // time, each 2 s. Only while the stick is almost full and Windows' animations are on (else the ring is red).
         readonly Timer pulse = new Timer { Interval = 50 };
         static readonly System.Diagnostics.Stopwatch clock = System.Diagnostics.Stopwatch.StartNew();
@@ -522,7 +522,7 @@ namespace LauncherApp
         protected override void OnPaint(PaintEventArgs e)
         {
             var g = e.Graphics;
-            Lcars.Fill(g, ClientRectangle, down ? Lcars.Down(Lcars.Block) : hover || Open ? Lcars.Hover(Lcars.Block) : Lcars.Block);
+            BarStyle.Fill(g, ClientRectangle, down ? BarStyle.Down(BarStyle.Block) : hover || Open ? BarStyle.Hover(BarStyle.Block) : BarStyle.Block);
 
             var text = new Rectangle(Theme.S(8), 0, Width - Theme.S(16), Height);
             string name = Info == null ? "LAUNCHER FOLDER"
@@ -533,8 +533,8 @@ namespace LauncherApp
             int ringD = Theme.S(18), ringGap = ring ? Theme.S(8) : 0, ringW = ring ? ringD : 0;
 
             const TextFormatFlags f = TextFormatFlags.NoPadding | TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix;
-            var nSize = TextRenderer.MeasureText(g, name, Lcars.Label, Size.Empty, f);
-            var fSize = free.Length > 0 ? TextRenderer.MeasureText(g, free, Lcars.Small, Size.Empty, f) : Size.Empty;
+            var nSize = TextRenderer.MeasureText(g, name, BarStyle.Label, Size.Empty, f);
+            var fSize = free.Length > 0 ? TextRenderer.MeasureText(g, free, BarStyle.Small, Size.Empty, f) : Size.Empty;
             int gap = free.Length > 0 ? Theme.S(8) : 0;
             if (ringW + ringGap + nSize.Width + gap + fSize.Width > text.Width) { free = ""; fSize = Size.Empty; gap = 0; }   // too long: no free space
             int x = text.X + Math.Max(0, (text.Width - ringW - ringGap - nSize.Width - gap - fSize.Width) / 2);
@@ -555,26 +555,26 @@ namespace LauncherApp
                         double phase = ((t + k) % 2.0) / 2.0;
                         float rad = r0 * (float)(1 + 1.6 * phase);
                         int alpha = (int)(230 * (1 - phase));
-                        using (var pen = new Pen(Color.FromArgb(alpha, Lcars.Red), Theme.S(1.5f)))
+                        using (var pen = new Pen(Color.FromArgb(alpha, BarStyle.Red), Theme.S(1.5f)))
                             g.DrawEllipse(pen, cx - rad, cy - rad, rad * 2, rad * 2);
                     }
                 }
-                using (var track = new Pen(Lcars.Mix(Lcars.InkDim, Lcars.Block, 0.3), Theme.S(3f))) g.DrawEllipse(track, rr);
+                using (var track = new Pen(BarStyle.Mix(BarStyle.InkDim, BarStyle.Block, 0.3), Theme.S(3f))) g.DrawEllipse(track, rr);
                 float sweep = (float)(360 * Info.UsedFraction);
                 if (sweep > 0)
-                    using (var used = new Pen(NearlyFull ? Lcars.Red : Lcars.Accent, Theme.S(3f)))
+                    using (var used = new Pen(NearlyFull ? BarStyle.Red : BarStyle.Accent, Theme.S(3f)))
                         g.DrawArc(used, rr, -90, Math.Max(sweep, 4f));
                 g.SmoothingMode = old;
                 x += ringW + ringGap;
             }
             int maxName = Math.Max(0, text.Right - x - gap - fSize.Width);
-            TextRenderer.DrawText(g, name, Lcars.Label, new Rectangle(x, top, Math.Min(nSize.Width, maxName), nSize.Height), Lcars.Ink, f | TextFormatFlags.EndEllipsis);
+            TextRenderer.DrawText(g, name, BarStyle.Label, new Rectangle(x, top, Math.Min(nSize.Width, maxName), nSize.Height), BarStyle.Ink, f | TextFormatFlags.EndEllipsis);
             if (free.Length > 0)
             {
                 int ft = top + (int)(nSize.Height * 0.78) - (int)(fSize.Height * 0.78);
-                TextRenderer.DrawText(g, free, Lcars.Small, new Point(x + nSize.Width + gap, ft), NearlyFull ? Lcars.Red : Lcars.InkDim, f);
+                TextRenderer.DrawText(g, free, BarStyle.Small, new Point(x + nSize.Width + gap, ft), NearlyFull ? BarStyle.Red : BarStyle.InkDim, f);
             }
-            if (Focused && keyFocus) Lcars.FocusFrame(g, ClientRectangle);
+            if (Focused && keyFocus) BarStyle.FocusFrame(g, ClientRectangle);
         }
     }
 
@@ -603,11 +603,11 @@ namespace LauncherApp
         {
             var g = e.Graphics;
             bool close = Kind == Kinds.Close;
-            Color back = Lcars.Block, ink = Lcars.Ink;
+            Color back = BarStyle.Block, ink = BarStyle.Ink;
             if (close && (hover || down)) { back = down ? Color.FromArgb(0x94, 0x1F, 0x1A) : Color.FromArgb(0xC4, 0x2B, 0x1C); ink = Color.White; }
-            else if (down) back = Lcars.Down(back);
-            else if (hover) back = Lcars.Hover(back);
-            Lcars.Fill(g, ClientRectangle, back);
+            else if (down) back = BarStyle.Down(back);
+            else if (hover) back = BarStyle.Hover(back);
+            BarStyle.Fill(g, ClientRectangle, back);
             float cx = Width / 2f, cy = Height / 2f, s = Theme.S(5f);
             using (var pen = new Pen(ink, Theme.S(1.3f)))
             {

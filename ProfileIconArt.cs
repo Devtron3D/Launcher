@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace LauncherApp
 {
-    // The detailed profile icons (mockups I2 for Dark, I4 for Light; drawn in green for Green phosphor).
+    // The detailed profile icons (in colour for Dark and Light; drawn in green for Green phosphor).
     // Each is a small drawing on a 32x32 grid in four layers: a main fill, a second fill, the outline and fine
     // detail lines. The shapes are written as SVG path data and turned into GDI+ paths here, so they stay sharp at
     // any size and DPI and no image files are needed.
@@ -125,7 +125,7 @@ namespace LauncherApp
             g.Restore(state);
         }
 
-        // ---- running: the same drawings, moving (mockup K1) ----
+        // ---- running: the same drawings, moving ----
 
         static readonly string[] Pins =
         {
